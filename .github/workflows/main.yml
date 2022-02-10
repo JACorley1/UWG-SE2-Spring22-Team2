@@ -1,0 +1,26 @@
+#SAMPLE Github Action YAML
+#establish triggers for action
+on: 
+ push:
+  branches: [development]
+#establish jobs for the workflow of the action
+jobs:
+ #define the test job 
+ test:
+  #define the type of runner used for the job (target OS)
+  runs-on: windows-latest
+  #steps of the build job - defines what occurs when the job is triggered
+  steps:
+  - name: Step 1 - Check out branch from Github
+    uses: actions/checkout@v2
+  - name: Step 2 - Set up JDK
+    uses: actions/setup-java@v1
+    with:
+     java-version: 16
+     distribution: adopt
+  - name: Step 3 - Test project(s) with Maven
+    run: |
+     echo TESTING SE2 PROJECT 
+     cd code
+     mvn --batch-mode --update-snapshots clean verify
+     cd ..
