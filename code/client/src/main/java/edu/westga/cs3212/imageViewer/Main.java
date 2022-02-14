@@ -1,4 +1,4 @@
-package edu.westga.cs3211.discountFinder;
+package edu.westga.cs3212.imageViewer;
 
 import java.io.IOException;
 
@@ -11,12 +11,12 @@ import javafx.scene.Scene;
 /**
  * Entry point for the program
  *
- * @author	CS 3211
- * @version Fall 2021
+ * @author	CS 3212
+ * @version Spring 2022
  */
 public class Main extends Application {
 	public static final String WINDOW_TITLE = "Image Viewer";
-	public static final String GUI_RESOURCE = "view/codebehind/Login.fxml";
+	public static final String GUI_RESOURCE = "view/codeBehind/LoginPage.fxml";
 
 	/**
 	 * JavaFX entry point.

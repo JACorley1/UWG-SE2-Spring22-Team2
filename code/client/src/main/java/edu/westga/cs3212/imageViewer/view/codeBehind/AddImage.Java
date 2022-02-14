@@ -1,3 +1,4 @@
+package edu.westga.cs3212.imageViewer.view.codeBehind;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -49,7 +50,7 @@ public class AddImage {
         //TODO
     }
 
-    private void Initialize() {
+    public void initialize() {
 
     }
 
