@@ -1,6 +1,7 @@
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
 public class LoginPage {
@@ -41,7 +42,7 @@ public class LoginPage {
 
     }
 
-    private void Initialize() {
+    public void initialize() {
         //this.errorText.isDisabled.setValue = true;
         //this.errorText.isVisibile.setValue = false;
         
