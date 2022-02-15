@@ -1,0 +1,15 @@
+Context - User is logged in and is viewing the landing page ("My Images")
+
+Primary Flow
+1 - user selects an image
+2 - the system displays image details
+3 - user selects to remove image
+4 - system removes image
+5 - system informs user of successful removal
+6 - system displays landing page with image removed
+
+Alternative Flow(s)
+BAD CONNECTION
+a4 - system fails to connect to server
+a5 - user is informed of error and prompts to try again later
+return to step 4
