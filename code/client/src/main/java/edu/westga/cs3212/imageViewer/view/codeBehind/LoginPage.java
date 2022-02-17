@@ -55,23 +55,27 @@ public class LoginPage {
             this.errorText.setVisible(true);
             this.passwordField.setText("");
         } else {
-            this.mainPage();
+            this.setToMainPage();
         }
 
     }
 
-    public void mainPage() throws IOException{
+    public void setToMainPage() throws IOException{
+    	Stage loginStage = (Stage)this.createAccountButton.getScene().getWindow();
+    	
+    	loginStage.close();
         Parent parent = FXMLLoader.load(Main.class.getResource(Main.ADD_IMAGE));
 		Scene scene = new Scene(parent);
         Stage mainPage = new Stage();
         mainPage.setScene(scene);
         mainPage.show();
         
+        
     }
 
     public void initialize() {
-        //this.errorText.isDisabled.setValue = true;
-        //this.errorText.isVisibile.setValue = false;
+        this.errorText.disableProperty().setValue(true);;
+        this.errorText.setVisible(false);
         loginManager = new LoginManager();
         
     }
