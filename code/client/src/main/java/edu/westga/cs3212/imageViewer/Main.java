@@ -1,4 +1,4 @@
-package edu.westga.cs3211.discountFinder;
+package edu.westga.cs3212.imageViewer;
 
 import java.io.IOException;
 
