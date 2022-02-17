@@ -1,4 +1,4 @@
 This document should contain:
- * Title of the project on first line
- * Brief description of the project (statement of purpose)
+ * Photo Sharing Application
+ * The system will allow users to upload and share images for other users to view.
  * Installation instructions (how to setup a development environment)
