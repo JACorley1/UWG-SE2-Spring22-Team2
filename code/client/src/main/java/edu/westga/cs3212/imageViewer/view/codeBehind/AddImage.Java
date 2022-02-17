@@ -6,6 +6,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 public class AddImage {
 
@@ -35,9 +36,7 @@ public class AddImage {
 
     @FXML
     void OnClearClicked(MouseEvent event) {
-        //this.imageView.setValue = null;
-        //this.categoriesComboBox.selectedItemProperty = null;
-        //
+        //TODO
     }
 
     @FXML
@@ -48,10 +47,6 @@ public class AddImage {
     @FXML
     void onCancelClicked(MouseEvent event) {
         //TODO
-    }
-
-    public void initialize() {
-
     }
 
 }
