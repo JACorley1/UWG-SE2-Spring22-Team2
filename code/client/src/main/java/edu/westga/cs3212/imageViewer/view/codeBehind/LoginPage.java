@@ -38,10 +38,11 @@ public class LoginPage {
       
     	String password = this.passwordField.getText();
         String username = this.usernameField.getText();
-        
         User user = new User(username, password);
         
-        this.loginManager.addUser(user);
+        if (!this.loginManager.addUser(user)) {
+            this.setErrorText(LoginManager.Duplicate_Username);
+        }
     }
 
     @FXML
@@ -50,14 +51,18 @@ public class LoginPage {
         String username = this.usernameField.getText();
 
         if (!this.loginManager.login(username, password)){
-            this.errorText.setText("Invalid user name or password");
-            this.errorText.disableProperty().setValue(false);
-            this.errorText.setVisible(true);
-            this.passwordField.setText("");
+            this.setErrorText(LoginManager.INCORRECT_LOGIN_INFORMATION);
         } else {
             this.setToMainPage();
         }
 
+    }
+
+    private void setErrorText(String text) {
+        this.errorText.setText(text);
+        this.errorText.disableProperty().setValue(false);
+        this.errorText.setVisible(true);
+        this.passwordField.setText("");
     }
 
     public void setToMainPage() throws IOException{
@@ -70,8 +75,7 @@ public class LoginPage {
         mainPage.setScene(scene);
         mainPage.setTitle(Main.WINDOW_TITLE);
         mainPage.show();
-        
-        
+    
     }
     @FXML
     public void initialize() {

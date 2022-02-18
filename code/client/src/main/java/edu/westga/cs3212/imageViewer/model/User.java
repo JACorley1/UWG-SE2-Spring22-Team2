@@ -3,7 +3,7 @@ package edu.westga.cs3212.imageViewer.model;
 public class User {
     private String username;
     private String password;
-    // private ArrayList<Image> images;
+    // private ImageInventory images;
 
     public User(String username, String password) {
         if(username == null) {
@@ -24,6 +24,7 @@ public class User {
 
         this.username = username;
         this.password = password;
+        //this.images = new ImageInventory();
     }
 
     public String getUsername() {

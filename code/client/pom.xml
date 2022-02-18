@@ -124,14 +124,15 @@
 										<include>edu.westga.cs3212.imageViewer.model</include>
 									</includes-->
 									<excludes>
-										<exclude>edu.westga.cs3212.imageViewer.view.codebehind</exclude>
+										<exclude>edu.westga.cs3212.imageViewer.view.codeBehind</exclude>
 										<exclude>edu.westga.cs3212.imageViewer</exclude>
+										<exclude>edu.westga.cs3212.imageViewer.view</exclude>
 									</excludes>
 									<limits>
 										<limit>
 											<counter>LINE</counter>
 											<value>COVEREDRATIO</value>
-											<minimum>0</minimum>
+											<minimum>1</minimum>
 										</limit>
 									</limits>
 								</rule>
