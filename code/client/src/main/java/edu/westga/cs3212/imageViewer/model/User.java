@@ -1,5 +1,9 @@
 package edu.westga.cs3212.imageViewer.model;
 
+/** The User class
+* 
+* @version CS 3212
+*/
 public class User {
     private String username;
     private String password;
@@ -26,10 +30,20 @@ public class User {
         this.password = password;
     }
 
+    /**
+     * Gets the username
+     * 
+     * @return username the name of the user
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Gets the username
+     * 
+     * @return password the password of this user
+     */
     public String getPassword() {
         return password;
     }

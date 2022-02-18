@@ -60,7 +60,7 @@ public class LoginPage {
 
     }
 
-    public void setToMainPage() throws IOException{
+    private void setToMainPage() throws IOException{
     	Stage loginStage = (Stage)this.createAccountButton.getScene().getWindow();
     	
     	loginStage.close();
@@ -73,6 +73,11 @@ public class LoginPage {
         
     }
 
+    /**
+    * Initializes the login page
+    *
+    */
+    @FXML
     public void initialize() {
         this.errorText.disableProperty().setValue(true);;
         this.errorText.setVisible(false);
