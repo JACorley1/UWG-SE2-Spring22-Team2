@@ -35,7 +35,7 @@ public class LoginPage {
 
     @FXML
     private void OnCreateAccountClicked(MouseEvent event) {
-        //this.createUser(this.usernameField.Text, this.passwordField.Text);
+      
     	String password = this.passwordField.getText();
         String username = this.usernameField.getText();
         
@@ -68,11 +68,12 @@ public class LoginPage {
 		Scene scene = new Scene(parent);
         Stage mainPage = new Stage();
         mainPage.setScene(scene);
+        mainPage.setTitle(Main.WINDOW_TITLE);
         mainPage.show();
         
         
     }
-
+    @FXML
     public void initialize() {
         this.errorText.disableProperty().setValue(true);;
         this.errorText.setVisible(false);
