@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="296.0" prefWidth="306.0" text="LoginPage" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16">
+<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="296.0" prefWidth="306.0" text="Login" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.westga.cs3212.imageViewer.view.codeBehind.LoginPage">
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="246.0" prefWidth="304.0">
          <children>
@@ -16,7 +16,7 @@
             <Label layoutX="15.0" layoutY="111.0" prefHeight="26.0" prefWidth="62.0" text="Password:" />
             <TextField fx:id="passwordField" layoutX="77.0" layoutY="112.0" prefHeight="25.0" prefWidth="168.0" />
             <Text fx:id="errorText" layoutX="7.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="293.13671875" />
-            <Button fx:id="loginButton" layoutX="54.0" layoutY="162.0" mnemonicParsing="false" onMouseClicked="#OnLoginPage" text="LoginPage" />
+            <Button fx:id="loginButton" layoutX="54.0" layoutY="162.0" mnemonicParsing="false" onMouseClicked="#OnLogin" text="Login" />
             <Button fx:id="createAccountButton" layoutX="152.0" layoutY="162.0" mnemonicParsing="false" onMouseClicked="#OnCreateAccountClicked" text="Create Account" />
          </children></AnchorPane>
   </content>
