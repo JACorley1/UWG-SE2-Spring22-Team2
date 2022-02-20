@@ -1,0 +1,5 @@
+{
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.checkstyle.configuration": "${workspaceFolder}\\UWG_checks.xml",
+    "java.checkstyle.version": "8.18"
+}

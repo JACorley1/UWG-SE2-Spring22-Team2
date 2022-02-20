@@ -49,4 +49,12 @@ public class AddImage {
         //TODO
     }
 
+    /**
+    * Initializes the add Image page
+    *
+    */
+    @FXML
+    public void initialize() {        
+    }
 }
+
