@@ -57,10 +57,6 @@
     <module name="IllegalImport"/>
     <module name="RedundantImport"/>
     <module name="UnusedImports"/>
-    <module name="LineLength">
-      <property name="severity" value="ignore"/>
-      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-    </module>
     <module name="MethodLength">
       <property name="max" value="35"/>
     </module>
@@ -141,6 +137,10 @@
     </module>
     <module name="UpperEll"/>
   </module>
+  <module name="LineLength">
+    <property name="severity" value="ignore"/>
+    <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+  </module>
   <module name="JavadocPackage">
     <property name="severity" value="ignore"/>
     <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
@@ -160,8 +160,5 @@
     <property name="format" value="\s+$"/>
     <property name="message" value="Line has trailing spaces."/>
     <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-  </module>
-  <module name="SuppressionFilter">
-    <property name="file" value="https://www.westga.edu/~dyoder/Checkstyle/suppressions.xml"/>
   </module>
 </module>
