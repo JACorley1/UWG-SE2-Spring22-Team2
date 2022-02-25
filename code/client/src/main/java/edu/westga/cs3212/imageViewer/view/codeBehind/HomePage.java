@@ -23,15 +23,15 @@ public class HomePage {
 
     @FXML
     void onAddImageClick(ActionEvent event) throws IOException {
-        Stage modalStage = new Stage();
-    	Parent parent = FXMLLoader.load(Main.class.getResource(Main.ADD_IMAGE));
+    	Stage loginStage = (Stage) this.addImageButton.getScene().getWindow();
+    	
+    	loginStage.close();
+        Parent parent = FXMLLoader.load(Main.class.getResource(Main.ADD_IMAGE));
 		Scene scene = new Scene(parent);
-		modalStage.setTitle(Main.WINDOW_TITLE);
-		modalStage.setScene(scene);
-		modalStage.initModality(Modality.WINDOW_MODAL);
-		modalStage.initOwner(((Node) event.getSource()).getScene().getWindow());
-		modalStage.showAndWait();
-		
+        Stage maiPage = new Stage();
+        maiPage.setScene(scene);
+        maiPage.setTitle(Main.WINDOW_TITLE);
+        maiPage.show();
     }
 }
 
