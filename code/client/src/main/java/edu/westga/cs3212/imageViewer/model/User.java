@@ -2,15 +2,16 @@ package edu.westga.cs3212.imageViewer.model;
 
 /** The User class
 * 
+* @author Group Two
 * @version CS 3212
 */
 public class User {
     private String username;
     private String password;
-    // private ImageInventory images;
+    private ImageInventory images;
 
     public User(String username, String password) {
-        if(username == null) {
+        if (username == null) {
             throw new IllegalArgumentException("Username cannot be null");
         }
 
@@ -18,17 +19,17 @@ public class User {
             throw new IllegalArgumentException("Username cannot be empty");
         }
 
-        if(password == null) {
-            throw new IllegalArgumentException("Username cannot be null");
+        if (password == null) {
+            throw new IllegalArgumentException("Password cannot be null");
         }
 
         if (password.isEmpty()) {
-            throw new IllegalArgumentException("Username cannot be empty");
+            throw new IllegalArgumentException("Password cannot be empty");
         }
 
         this.username = username;
         this.password = password;
-        //this.images = new ImageInventory();
+        this.images = new ImageInventory();
     }
 
     /**
@@ -37,7 +38,7 @@ public class User {
      * @return username the name of the user
      */
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     /**
@@ -46,11 +47,21 @@ public class User {
      * @return password the password of this user
      */
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
-    public String ToString() {
+    public String toString() {
         return "User: " + this.username;
+    }
+
+    /**
+     * Adds image the user's image collection
+     * 
+     * @param picture
+     * @return T/F image was successfully aded
+     */
+    public boolean addImage(Image picture) {
+        return this.images.addImage(picture);
     }
     
 }

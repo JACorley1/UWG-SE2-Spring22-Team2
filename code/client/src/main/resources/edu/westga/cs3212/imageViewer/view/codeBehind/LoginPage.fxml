@@ -16,8 +16,8 @@
             <Label layoutX="15.0" layoutY="111.0" prefHeight="26.0" prefWidth="62.0" text="Password:" />
             <TextField fx:id="passwordField" layoutX="77.0" layoutY="112.0" prefHeight="25.0" prefWidth="168.0" />
             <Text fx:id="errorText" layoutX="7.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="293.13671875" />
-            <Button fx:id="loginButton" layoutX="54.0" layoutY="162.0" mnemonicParsing="false" onMouseClicked="#OnLogin" text="Login" />
-            <Button fx:id="createAccountButton" layoutX="152.0" layoutY="162.0" mnemonicParsing="false" onMouseClicked="#OnCreateAccountClicked" text="Create Account" />
+            <Button fx:id="loginButton" layoutX="54.0" layoutY="162.0" mnemonicParsing="false" onMouseClicked="#onLogin" text="Login" />
+            <Button fx:id="createAccountButton" layoutX="152.0" layoutY="162.0" mnemonicParsing="false" onMouseClicked="#onCreateAccountClicked" text="Create Account" />
          </children></AnchorPane>
   </content>
 </TitledPane>

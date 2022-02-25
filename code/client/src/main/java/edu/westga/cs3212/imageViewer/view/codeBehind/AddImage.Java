@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Tooltip;
 
 public class AddImage {
 
@@ -54,7 +55,9 @@ public class AddImage {
     *
     */
     @FXML
-    public void initialize() {        
+    public void initialize() {      
+        Tooltip.install(this.imageView, new Tooltip("Click here to upload a new image.")); \
+        this.imageView.
     }
 }
 

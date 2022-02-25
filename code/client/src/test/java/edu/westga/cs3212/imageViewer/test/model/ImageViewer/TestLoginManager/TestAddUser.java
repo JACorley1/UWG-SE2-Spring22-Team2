@@ -17,6 +17,7 @@ class TestAddUser {
         
         assertTrue(login.addUser(new User("username", "password")));
         assertEquals(1, login.size());
+        login.clearUsers();
     }
 
     @Test
@@ -29,5 +30,7 @@ class TestAddUser {
         
         assertFalse(login.addUser(new User("username", "password123")));
         assertEquals(3, login.size());
+
+        login.clearUsers();
     }
 }

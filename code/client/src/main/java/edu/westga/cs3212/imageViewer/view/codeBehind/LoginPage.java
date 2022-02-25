@@ -34,23 +34,23 @@ public class LoginPage {
     private LoginManager loginManager;
 
     @FXML
-    private void OnCreateAccountClicked(MouseEvent event) {
+    private void onCreateAccountClicked(MouseEvent event) {
       
     	String password = this.passwordField.getText();
         String username = this.usernameField.getText();
         User user = new User(username, password);
         
         if (!this.loginManager.addUser(user)) {
-            this.setErrorText(LoginManager.Duplicate_Username);
+            this.setErrorText(LoginManager.DUPLICATE_USERNAME);
         }
     }
 
     @FXML
-    private void OnLogin(MouseEvent event) throws IOException {
+    private void onLogin(MouseEvent event) throws IOException {
         String password = this.passwordField.getText();
         String username = this.usernameField.getText();
 
-        if (!this.loginManager.login(username, password)){
+        if (!this.loginManager.login(username, password)) {
             this.setErrorText(LoginManager.INCORRECT_LOGIN_INFORMATION);
         } else {
             this.setToMainPage();
@@ -65,11 +65,11 @@ public class LoginPage {
         this.passwordField.setText("");
     }
 
-    public void setToMainPage() throws IOException{
-    	Stage loginStage = (Stage)this.createAccountButton.getScene().getWindow();
+    public void setToMainPage() throws IOException {
+    	Stage loginStage = (Stage) this.createAccountButton.getScene().getWindow();
     	
     	loginStage.close();
-        Parent parent = FXMLLoader.load(Main.class.getResource(Main.ADD_IMAGE));
+        Parent parent = FXMLLoader.load(Main.class.getResource(Main.MAIN_PAGE));
 		Scene scene = new Scene(parent);
         Stage mainPage = new Stage();
         mainPage.setScene(scene);
@@ -84,9 +84,9 @@ public class LoginPage {
     */
     @FXML
     public void initialize() {
-        this.errorText.disableProperty().setValue(true);;
+        this.errorText.disableProperty().setValue(true);
         this.errorText.setVisible(false);
-        loginManager = new LoginManager();
+        this.loginManager = new LoginManager();
         
     }
 
