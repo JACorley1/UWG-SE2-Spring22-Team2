@@ -56,7 +56,7 @@ public class Image {
 	/**
 	 * Returns a String representation of the Image object
 	 * 
-	 * @returns a String representation of the Image object
+	 * @returns String  a string representation of the Image object
 	 */
 	public String toString() {
 		return this.title + ": " + this.imageId;

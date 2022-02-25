@@ -11,16 +11,16 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="421.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.westga.cs3212.imageViewer.view.codeBehind.AddImage">
    <children>
-      <ImageView fx:id="imageView" fitHeight="295.0" fitWidth="423.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imageView" fitHeight="295.0" fitWidth="411.0" layoutX="5.0" layoutY="16.0" onMouseClicked="#onImageViewClicked" pickOnBounds="true" preserveRatio="true" />
       <Label layoutX="12.0" layoutY="380.0" text="Name :" />
-      <TextField layoutX="56.0" layoutY="376.0" prefHeight="25.0" prefWidth="335.0" />
+      <TextField fx:id="imageNameTextField" layoutX="56.0" layoutY="376.0" prefHeight="25.0" prefWidth="335.0" />
       <Label layoutX="26.0" layoutY="125.0" prefHeight="75.0" prefWidth="383.0" text="Click here to add Image" visible="false">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
-      <Button fx:id="uploadButton" layoutX="50.0" layoutY="430.0" mnemonicParsing="false" onMouseClicked="#OnUploadClicked" prefHeight="25.0" prefWidth="82.0" text="Upload" />
-      <Button fx:id="clearButton" layoutX="183.0" layoutY="430.0" mnemonicParsing="false" onMouseClicked="#OnClearClicked" prefHeight="25.0" prefWidth="82.0" text="Clear" />
+      <Button fx:id="uploadButton" layoutX="50.0" layoutY="430.0" mnemonicParsing="false" onMouseClicked="#onUploadClicked" prefHeight="25.0" prefWidth="82.0" text="Upload" />
+      <Button fx:id="clearButton" layoutX="183.0" layoutY="430.0" mnemonicParsing="false" onMouseClicked="#onClearClicked" prefHeight="25.0" prefWidth="82.0" text="Clear" />
       <Button fx:id="cancelButton" layoutX="309.0" layoutY="430.0" mnemonicParsing="false" onMouseClicked="#onCancelClicked" prefHeight="25.0" prefWidth="82.0" text="Cancel" />
       <RadioButton fx:id="privateRadioButton" disable="true" layoutX="14.0" layoutY="324.0" mnemonicParsing="false" text="Private" visible="false" />
       <RadioButton fx:id="shareableRadioButton" disable="true" layoutX="84.0" layoutY="324.0" mnemonicParsing="false" text="Shareable" visible="false" />
