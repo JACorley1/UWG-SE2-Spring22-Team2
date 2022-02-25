@@ -1,0 +1,19 @@
+Context: Once the user adds an image, it is ready to upload on to the landing page ("My Images").
+
+Primary Flow:
+
+1 - user selects to upload image once image was added
+2 - system uploads image to the server
+3 - system displays landing page ("My Images") including uploaded image
+
+
+Alernative Flow(s)
+
+BAD CONNECTION
+a2 - system fails to connect to the server
+a3 - system informs user of error and prompts to try again later
+return to step 2
+
+CANCEL
+a1 - user selects cancel
+a3 - system displays landing page ("My Images")

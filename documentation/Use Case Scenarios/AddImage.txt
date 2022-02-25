@@ -1,0 +1,18 @@
+Context: User is logged in and is viewing the landing page ("My Images")
+
+Primary Flow:
+
+1 - user selects to add an image
+2 - the system displays the add/upload page
+3 - user selects "Add Image" button
+4 - the system displays the File Explorer
+5 - user selects an image
+6 - user selects to add (open) the image
+7 - the system displays the add/upload page with the image added
+
+
+Alternative Flow(s)
+CANCEL
+
+a3-5 - user selects cancel
+return to step 2

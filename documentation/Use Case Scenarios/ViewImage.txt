@@ -1,0 +1,7 @@
+Context - User is logged in and is viewing the landing page ("My Images")
+
+Primary Flow:
+1 - user selects an image
+2 - system displays details of the image
+3 - user selects to close the image details
+4 - system displays the landing page
