@@ -47,6 +47,10 @@ public class ImageInventory {
 	 * @param picture the picture
 	 */
 	public void removeImage(Image picture) {
+		if (picture == null) {
+			throw new IllegalArgumentException("The picture cannot be null");
+		}
+		
 		this.images.remove(picture);
 	}
 	
