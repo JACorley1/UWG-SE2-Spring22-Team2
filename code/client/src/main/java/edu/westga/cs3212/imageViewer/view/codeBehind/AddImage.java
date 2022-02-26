@@ -3,9 +3,16 @@ package edu.westga.cs3212.imageViewer.view.codeBehind;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
+import edu.westga.cs3212.imageViewer.Main;
 import edu.westga.cs3212.imageViewer.model.LoginManager;
+import edu.westga.cs3212.imageViewer.model.Picture;
+import edu.westga.cs3212.imageViewer.model.User;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -58,8 +65,25 @@ public class AddImage {
     }
 
     @FXML
-    void onUploadClicked(MouseEvent event) {
-        // manager.getLoggedInUser().addImage(this.imageView.getImage());
+    void onUploadClicked(MouseEvent event) throws IOException {
+    	Image newImage = this.imageView.imageProperty().get();
+    	System.out.println(newImage.getUrl());
+    	String imageName = this.imageNameTextField.textProperty().getValue();
+    	Picture.imageId += 1;
+    	Picture test = new Picture(newImage, imageName);
+    	System.out.println(test);
+       LoginManager.loggedInUser.addImage(test);
+    	
+       Stage loginStage = (Stage) this.cancelButton.getScene().getWindow();
+   	
+   		loginStage.close();
+       Parent parent = FXMLLoader.load(Main.class.getResource(Main.MAIN_PAGE));
+		Scene scene = new Scene(parent);
+       Stage maiPage = new Stage();
+       maiPage.setScene(scene);
+       maiPage.setTitle(Main.WINDOW_TITLE);
+       maiPage.show();
+    	
     }
 
     @FXML
@@ -83,6 +107,7 @@ public class AddImage {
 			System.out.println("Selected file: " + selectedFile.getName() + " " + selectedFile.getPath());
 			this.setImage(selectedFile.getPath());
 		}
+		
     }
 
 

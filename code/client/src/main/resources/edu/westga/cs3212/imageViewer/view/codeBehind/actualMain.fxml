@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.westga.cs3212.imageViewer.view.codeBehind.HomePage">
    <children>
-      <ListView fx:id="userImages" layoutX="45.0" layoutY="37.0" prefHeight="326.0" prefWidth="510.0" />
       <Button fx:id="addImageButton" layoutX="473.0" layoutY="363.0" mnemonicParsing="false" onAction="#onAddImageClick" text="Add Image" />
+      <VBox fx:id="userImages" alignment="TOP_CENTER" layoutX="18.0" layoutY="30.0" prefHeight="295.0" prefWidth="563.0">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../../../../../../../../Pictures/Saved%20Pictures/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

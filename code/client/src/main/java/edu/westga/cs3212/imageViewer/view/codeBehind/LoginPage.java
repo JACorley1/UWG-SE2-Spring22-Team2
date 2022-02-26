@@ -32,6 +32,8 @@ public class LoginPage {
     private Button createAccountButton;
 
     private LoginManager loginManager;
+    
+     
 
     @FXML
     private void onCreateAccountClicked(MouseEvent event) {

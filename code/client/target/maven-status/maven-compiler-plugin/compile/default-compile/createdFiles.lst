@@ -5,4 +5,4 @@ edu\westga\cs3212\imageViewer\model\LoginManager.class
 edu\westga\cs3212\imageViewer\model\User.class
 edu\westga\cs3212\imageViewer\view\codeBehind\LoginPage.class
 edu\westga\cs3212\imageViewer\model\ImageInventory.class
-edu\westga\cs3212\imageViewer\model\Image.class
+edu\westga\cs3212\imageViewer\model\Picture.class

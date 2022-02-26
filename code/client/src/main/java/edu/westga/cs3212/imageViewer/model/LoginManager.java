@@ -11,7 +11,7 @@ public class LoginManager {
     public static final String DUPLICATE_USERNAME = "There is already a user with this username";
     public static final String INCORRECT_LOGIN_INFORMATION = "Invalid user name or password"; 
     private static ArrayList<User> users;
-    private static User loggedInUser;
+    public static User loggedInUser;
     
 
     /** 

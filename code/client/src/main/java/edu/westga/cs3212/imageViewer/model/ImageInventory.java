@@ -3,12 +3,14 @@ package edu.westga.cs3212.imageViewer.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.image.Image;
+
 public class ImageInventory {
 	
-	private List<Image> images;
+	private List<Picture> images;
 	
 	public ImageInventory() {
-		this.images = new ArrayList<Image>();
+		this.images = new ArrayList<Picture>();
 	}
 	
 	/**
@@ -18,7 +20,7 @@ public class ImageInventory {
 	 * 
 	 * @return T/F If image was removed
 	 */
-	public boolean addImage(Image picture) {
+	public boolean addImage(Picture picture) {
 		return this.images.add(picture);
 	}
 	
@@ -29,8 +31,23 @@ public class ImageInventory {
 	 * 
 	 * @return T/F If image was removed
 	 */
-	public boolean removeImage(Image picture) {
+	public boolean removeImage(Picture picture) {
 		return this.images.remove(picture);
+	}
+	
+	/**
+	 * Gets the pictures.
+	 *
+	 * @return the pictures
+	 */
+	public ArrayList<Image> getPictures() {
+		ArrayList<Image> allImages = new ArrayList<Image>();
+		
+		for(Picture img: this.images) {
+			allImages.add(img.getPic());
+		}
+		
+		return allImages;
 	}
 
 }
