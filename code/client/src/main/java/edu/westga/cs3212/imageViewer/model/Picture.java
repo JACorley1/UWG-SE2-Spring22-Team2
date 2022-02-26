@@ -1,14 +1,17 @@
 package edu.westga.cs3212.imageViewer.model;
 
+import javafx.scene.image.Image;
+
 /**
  * The Image class
  * 
  * @author Janera Smith
  * @version Spring 2022
  */
-public class Image {
+public class Picture {
 	private String title;
-	private int imageId;
+	public static int  imageId = 0;
+	private Image pic;
 
 	/**
 	 * Instantiates the Image with the specified title and image id
@@ -19,16 +22,31 @@ public class Image {
 	 * @param title   the title of the image
 	 * @param imageId the image id
 	 */
-	public Image(String title, int imageId) {
+	public Picture(Image pic,String title) {
 		if (title == null) {
 			throw new IllegalArgumentException("The title cannot be null");
 		}
-		if (imageId <= 0) {
-			throw new IllegalArgumentException("The image id must be positive");
-		}
 
 		this.title = title;
-		this.imageId = imageId;
+		this.pic = pic;
+	}
+
+	/**
+	 * Gets the pic.
+	 *
+	 * @return the pic
+	 */
+	public Image getPic() {
+		return this.pic;
+	}
+
+	/**
+	 * Sets the pic.
+	 *
+	 * @param pic the new pic
+	 */
+	public void setPic(Image pic) {
+		this.pic = pic;
 	}
 
 	/**
@@ -56,7 +74,7 @@ public class Image {
 	/**
 	 * Returns a String representation of the Image object
 	 * 
-	 * @returns a String representation of the Image object
+	 * @returns String  a string representation of the Image object
 	 */
 	public String toString() {
 		return this.title + ": " + this.imageId;

@@ -3,6 +3,10 @@ package edu.westga.cs3212.imageViewer.model;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import javafx.scene.image.Image;
+
+
 /**
  * The ImageInventory class.
  * 
@@ -12,7 +16,7 @@ import java.util.List;
  */
 public class ImageInventory {
 	
-	private List<Image> images;
+	private List<Picture> images;
 	
 	/**
 	 * Instantiates a new ImageInventory
@@ -21,7 +25,7 @@ public class ImageInventory {
 	 * @postcondition size() == 0
 	 */
 	public ImageInventory() {
-		this.images = new ArrayList<Image>();
+		this.images = new ArrayList<Picture>();
 	}
 	
 	/**
@@ -30,13 +34,17 @@ public class ImageInventory {
 	 * @precondition picture != null
 	 * @postcondition size() == size()@prev + 1
 	 * @param picture the picture
+	 * 
+	 * @return T/F If image was removed
 	 */
-	public void addImage(Image picture) {
-		if (picture == null) {
-			throw new IllegalArgumentException("The picture cannot be null");
-		}
+
+	public boolean addImage(Picture picture) {
+		return this.images.add(picture);
+
+	
 		
 		this.images.add(picture);
+
 	}
 	
 	/**
@@ -45,13 +53,36 @@ public class ImageInventory {
 	 * @precondition picture != null
 	 * @postcondition size()
 	 * @param picture the picture
+	 * 
+	 * @return T/F If image was removed
 	 */
+	public boolean removeImage(Picture picture) {
+		return this.images.remove(picture);
+	}
+	
+	/**
+	 * Gets the pictures.
+	 *
+	 * @return the pictures
+	 */
+
+	public ArrayList<Image> getPictures() {
+		ArrayList<Image> allImages = new ArrayList<Image>();
+		
+		for(Picture img: this.images) {
+			allImages.add(img.getPic());
+		}
+		
+		return allImages;
+   }
+
 	public void removeImage(Image picture) {
 		if (picture == null) {
 			throw new IllegalArgumentException("The picture cannot be null");
 		}
 		
 		this.images.remove(picture);
+
 	}
 	
 	/**

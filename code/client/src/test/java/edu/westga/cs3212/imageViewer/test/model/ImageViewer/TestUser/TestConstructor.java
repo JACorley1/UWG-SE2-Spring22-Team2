@@ -42,6 +42,6 @@ class TestConstructor {
     void TestToString() {
         User user = new User("John", "password");
 
-        assertEquals("User: John", user.ToString());
+        assertEquals("User: John", user.toString());
     }
 }

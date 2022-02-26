@@ -16,8 +16,9 @@ import javafx.scene.Scene;
  */
 public class Main extends Application {
 	public static final String WINDOW_TITLE = "Image Viewer";
-	public static final String Login_Page = "view/codeBehind/LoginPage.fxml";
+	public static final String LOGIN_PAGE = "view/codeBehind/LoginPage.fxml";
 	public static final String ADD_IMAGE = "view/codeBehind/AddImage.fxml";
+	public static final String MAIN_PAGE = "view/codeBehind/actualMain.fxml";
 
 	/**
 	 * JavaFX entry point.
@@ -29,7 +30,7 @@ public class Main extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-		Parent parent = FXMLLoader.load(getClass().getResource(Main.Login_Page));
+		Parent parent = FXMLLoader.load(getClass().getResource(Main.LOGIN_PAGE));
 		Scene scene = new Scene(parent);
 		primaryStage.setTitle(WINDOW_TITLE);
 		primaryStage.setScene(scene);
