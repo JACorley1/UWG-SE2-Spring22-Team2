@@ -74,16 +74,20 @@ public class AddImage {
     	System.out.println(test);
        LoginManager.loggedInUser.addImage(test);
     	
-       Stage loginStage = (Stage) this.cancelButton.getScene().getWindow();
-   	
-   		loginStage.close();
-       Parent parent = FXMLLoader.load(Main.class.getResource(Main.MAIN_PAGE));
-		Scene scene = new Scene(parent);
-       Stage maiPage = new Stage();
-       maiPage.setScene(scene);
-       maiPage.setTitle(Main.WINDOW_TITLE);
-       maiPage.show();
+       this.closeWindow();
     	
+    }
+
+    private void closeWindow() throws IOException {
+            Stage currentStage = (Stage) this.cancelButton.getScene().getWindow();
+        	currentStage.close();
+
+            Parent parent = FXMLLoader.load(Main.class.getResource(Main.MAIN_PAGE));
+            Scene scene = new Scene(parent);
+            Stage maiPage = new Stage();
+             maiPage.setScene(scene);
+            maiPage.setTitle(Main.WINDOW_TITLE);
+            maiPage.show();
     }
 
     @FXML
@@ -95,7 +99,7 @@ public class AddImage {
     
     @FXML
     void onImageViewClicked(MouseEvent event) {
-        System.out.println("IT WORKS!!");
+
         FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Image File");
 		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif", "*.bmp"),

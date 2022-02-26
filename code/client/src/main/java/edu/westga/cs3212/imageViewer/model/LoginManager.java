@@ -19,10 +19,9 @@ public class LoginManager {
     *
     */
     public LoginManager() {
-        if (LoginManager.users != null) {
+        if (LoginManager.users == null) {
             LoginManager.users = new ArrayList<User>();
         }
-        LoginManager.users = new ArrayList<User>();
     }
 
     /** 

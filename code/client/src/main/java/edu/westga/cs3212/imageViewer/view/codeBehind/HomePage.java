@@ -1,23 +1,22 @@
 package edu.westga.cs3212.imageViewer.view.codeBehind;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import edu.westga.cs3212.imageViewer.Main;
 import edu.westga.cs3212.imageViewer.model.LoginManager;
 import edu.westga.cs3212.imageViewer.model.User;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 public class HomePage {
 
@@ -29,8 +28,17 @@ public class HomePage {
     
     @FXML
     public void initialize() {
-    	this.userImages = new VBox();
+    	// this.userImages = new VBox();
     	this.populateVBox();
+
+		// try {
+		// 	FileInputStream inputStream = new FileInputStream("Assets/upload.jpg");
+		// 	this.userImages.getChildren().add(new ImageView(new Image(inputStream)));
+		// 	this.userImages.getChildren().add(new Button("Yes"));
+		// } catch (FileNotFoundException e) {
+		// 	e.printStackTrace();
+		// }
+		
     	
     }
 
@@ -55,6 +63,9 @@ public class HomePage {
 		for(Image img: currentUser.getImages().getPictures()) {
     		ImageView someImage = new ImageView();
     		someImage.imageProperty().setValue(img);
+			someImage.fitWidthProperty().bind(this.userImages.widthProperty());
+			someImage.setFitHeight(295);
+			someImage.setPreserveRatio(true);
     		
     		allImages.add(someImage);
     	}
