@@ -8,11 +8,11 @@
 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="502.0" prefWidth="716.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.westga.cs3212.imageViewer.view.codeBehind.HomePage">
    <children>
       <Button fx:id="addImageButton" alignment="BOTTOM_RIGHT" layoutX="627.0" layoutY="463.0" mnemonicParsing="false" onAction="#onAddImageClick" text="Add Image" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10" />
-      <ScrollPane layoutX="11.0" layoutY="33.0" prefHeight="417.0" prefWidth="694.0"  AnchorPane.rightAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.bottomAnchor = "50" AnchorPane.topAnchor = "30">
+      <ScrollPane layoutX="11.0" layoutY="33.0" prefHeight="417.0" prefWidth="694.0" AnchorPane.bottomAnchor="50" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="30">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0">
                <children>
-                  <VBox fx:id="userImages" alignment="TOP_CENTER" prefHeight="416.0" prefWidth="666.0"/>
+                  <VBox fx:id="userImages" alignment="TOP_CENTER" prefHeight="416.0" prefWidth="666.0" spacing="20.0" />
                </children>
             </AnchorPane>
         </content>
