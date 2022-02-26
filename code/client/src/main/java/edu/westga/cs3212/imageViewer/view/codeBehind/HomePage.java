@@ -28,23 +28,17 @@ public class HomePage {
     
     @FXML
     public void initialize() {
-    	// this.userImages = new VBox();
+    	
     	this.populateVBox();
 
-		// try {
-		// 	FileInputStream inputStream = new FileInputStream("Assets/upload.jpg");
-		// 	this.userImages.getChildren().add(new ImageView(new Image(inputStream)));
-		// 	this.userImages.getChildren().add(new Button("Yes"));
-		// } catch (FileNotFoundException e) {
-		// 	e.printStackTrace();
-		// }
+		
 		
     	
     }
 
     private void populateVBox() {
 		// TODO Auto-generated method stub
-    	//List of ImageViews
+    	
     	User currentUser = LoginManager.loggedInUser;
     	System.out.println("THIS IS THE CURRENT USER: " + currentUser.getUsername());
     	ArrayList<ImageView> allImages = this.setUpImageViews(currentUser);
