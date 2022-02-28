@@ -1,6 +1,5 @@
 package edu.westga.cs3212.imageViewer.model;
 
-// TODO: Auto-generated Javadoc
 /**
  *  The User class.
  *
