@@ -3,7 +3,7 @@ package edu.westga.cs3212.imageViewer.model;
 import javafx.scene.image.Image;
 
 /**
- * The Image class
+ * The Picture class
  * 
  * @author Janera Smith & Oumar Diallo
  * @version Spring 2022
