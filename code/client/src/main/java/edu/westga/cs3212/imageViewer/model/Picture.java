@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 /**
  * The Image class
  * 
- * @author Janera Smith
+ * @author Janera Smith & Oumar Diallo
  * @version Spring 2022
  */
 public class Picture {
@@ -28,7 +28,7 @@ public class Picture {
 		}
 
 		this.title = title;
-		this.pic = pic;
+		this.setPic(pic);
 	}
 
 	/**
@@ -46,6 +46,9 @@ public class Picture {
 	 * @param pic the new pic
 	 */
 	public void setPic(Image pic) {
+		if (pic == null) {
+			throw new IllegalArgumentException("The pic cannot be null");
+		}
 		this.pic = pic;
 	}
 
@@ -68,7 +71,23 @@ public class Picture {
 	 * @return the image id
 	 */
 	public int getImageId() {
-		return this.imageId;
+		return Picture.imageId;
+	}
+	
+	/**
+	 * Sets the Image id
+	 * 
+	 * @precondition imageId > 0
+	 * @postcondition getImageId() == imageId
+	 * 
+	 * @param imageId the image id
+	 */
+	public void setImageId(int imageId) {
+		if (imageId <= 0) {
+			throw new IllegalArgumentException("The image id cannot be negative");
+		}
+		
+		Picture.imageId = imageId;
 	}
 
 	/**
@@ -77,6 +96,6 @@ public class Picture {
 	 * @returns String  a string representation of the Image object
 	 */
 	public String toString() {
-		return this.title + ": " + this.imageId;
+		return this.title + ": " + Picture.imageId;
 	}
 }
