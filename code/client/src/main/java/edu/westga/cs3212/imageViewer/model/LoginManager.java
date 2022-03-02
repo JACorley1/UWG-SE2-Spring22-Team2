@@ -93,4 +93,8 @@ public class LoginManager {
     public User getLoggedInUser() {
         return LoginManager.loggedInUser;
     }
+
+    public ArrayList<User> getUsers() {
+        return this.users;
+    }
 }

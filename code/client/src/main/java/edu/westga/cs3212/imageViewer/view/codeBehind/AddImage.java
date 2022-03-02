@@ -91,9 +91,8 @@ public class AddImage {
     }
 
     @FXML
-    void onCancelClicked(MouseEvent event) {
-        Stage addStage = (Stage) this.categoryLabel.getScene().getWindow();
-        addStage.close();
+    void onCancelClicked(MouseEvent event) throws IOException {
+        this.closeWindow();
     }
 
     

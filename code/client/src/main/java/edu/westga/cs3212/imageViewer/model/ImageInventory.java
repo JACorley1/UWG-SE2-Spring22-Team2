@@ -40,11 +40,6 @@ public class ImageInventory {
 
 	public boolean addImage(Picture picture) {
 		return this.images.add(picture);
-
-	
-		
-		this.images.add(picture);
-
 	}
 	
 	/**
