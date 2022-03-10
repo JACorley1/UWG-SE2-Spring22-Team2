@@ -8,7 +8,6 @@ import java.io.IOException;
 import edu.westga.cs3212.imageViewer.Main;
 import edu.westga.cs3212.imageViewer.model.LoginManager;
 import edu.westga.cs3212.imageViewer.model.Picture;
-import edu.westga.cs3212.imageViewer.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,7 +25,11 @@ import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.scene.control.Tooltip;
 
+/**
+ * The Class AddImage.
+ */
 public class AddImage {
+
 
     @FXML
     private ImageView imageView;
@@ -100,42 +103,49 @@ public class AddImage {
     void onImageViewClicked(MouseEvent event) {
 
         FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Open Image File");
-		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif", "*.bmp"),
-				new ExtensionFilter("All Files", "*.*"));
+	
+		    fileChooser.setTitle("Open Image File");
+		    fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif", "*.bmp"),
+				    new ExtensionFilter("All Files", "*.*"));
 
-		Stage stage = new Stage();
-		File selectedFile = fileChooser.showOpenDialog(stage);
-		if (selectedFile != null) {
-			System.out.println("Selected file: " + selectedFile.getName() + " " + selectedFile.getPath());
-			this.setImage(selectedFile.getPath());
+        Stage stage = new Stage();
+		    File selectedFile = fileChooser.showOpenDialog(stage);
+		    if (selectedFile != null) {
+			
+			    this.setImage(selectedFile.getPath());
 		}
-		
-    }
 
+	}
 
-    /**
-    * Initializes the add Image page
-    *
-    */
-    @FXML
-    public void initialize() {      
-        Tooltip.install(this.imageView, new Tooltip("Click here to upload a new image."));
-        this.manager = new LoginManager();
-        this.setImage("Assets/upload.jpg");
-    }
+	/**
+	 * Initializes the add Image page.
+	 */
+	@FXML
+	public void initialize() {
+		Tooltip.install(this.imageView, new Tooltip("Click here to upload a new image."));
+		this.manager = new LoginManager();
+		this.setImage("Assets/upload.jpg");
+	}
 
-    private void clearFields() {
-        this.setImage("Assets/upload.jpg");
-        this.imageNameTextField.setText("");
-    }
+	/**
+	 * Clear fields.
+	 */
+	private void clearFields() {
+		this.setImage("Assets/upload.jpg");
+		this.imageNameTextField.setText("");
+	}
 
-    private void setImage(String imagePath) {
-        try {
+	/**
+	 * Sets the image.
+	 *
+	 * @param imagePath the new image
+	 */
+	private void setImage(String imagePath) {
+		try {
 			FileInputStream inputStream = new FileInputStream(imagePath);
 			this.imageView.imageProperty().setValue(new Image(inputStream));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-    }
+	}
 }

@@ -1,7 +1,5 @@
 package edu.westga.cs3212.imageViewer.view.codeBehind;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -23,36 +21,46 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+/**
+ * The Class HomePage.
+ */
 public class HomePage {
 
+	/** The user images. */
 	@FXML
     private Button logOutButton;
 
 	@FXML
     private VBox userImages;
 
+
 	@FXML
     private ListView<ImageView> imageListView;
+
+
+    /** The add image button. */
 
     @FXML
     private Button addImageButton;
     
+    /**
+     * Initialize.
+     */
     @FXML
     public void initialize() {
     	this.populateVBox();
+
     }
 
+    /**
+     * Populate the Vbox with user images.
+     */
     private void populateVBox() {
-		// TODO Auto-generated method stub
     	
     	User currentUser = LoginManager.loggedInUser;
-    	System.out.println("THIS IS THE CURRENT USER: " + currentUser.getUsername());
-    	ArrayList<ImageView> allImages = this.setUpImageViews(currentUser);
-    	System.out.println("THIS IS THE IMAGE VIEW SIZE: " + allImages.size());
     	
-    	if(allImages.size() > 0) {
-    		System.out.println(allImages.get(0).imageProperty().get().getUrl());
-    	}
+    	ArrayList<ImageView> allImages = this.setUpImageViews(currentUser);
 		
     	this.userImages.getChildren().addAll(allImages);
 		ObservableList<ImageView> images = new SimpleListProperty<ImageView>(FXCollections.observableArrayList(allImages));
@@ -61,6 +69,12 @@ public class HomePage {
  
 	}
 
+	/**
+	 * Sets the up image views.
+	 *
+	 * @param currentUser the current user
+	 * @return the array list
+	 */
 	private ArrayList<ImageView> setUpImageViews(User currentUser) {
 		ArrayList<ImageView> allImages = new ArrayList<ImageView>();
 		LoginManager login = new LoginManager();
@@ -78,8 +92,14 @@ public class HomePage {
 		return allImages;
 	}
 
+	/**
+	 * On add image click.
+	 *
+	 * @param event the event
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@FXML
-    void onAddImageClick(ActionEvent event) throws IOException {
+    private void onAddImageClick(ActionEvent event) throws IOException {
     	Stage loginStage = (Stage) this.addImageButton.getScene().getWindow();
     	
     	loginStage.close();
