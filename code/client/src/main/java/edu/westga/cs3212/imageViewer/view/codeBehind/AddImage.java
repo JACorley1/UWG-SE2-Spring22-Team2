@@ -30,121 +30,89 @@ import javafx.scene.control.Tooltip;
  */
 public class AddImage {
 
-	/** The image view. */
-	@FXML
-	private ImageView imageView;
 
-	/** The image name text field. */
-	@FXML
-	private TextField imageNameTextField;
+    @FXML
+    private ImageView imageView;
 
-	/** The upload button. */
-	@FXML
-	private Button uploadButton;
+    @FXML
+    private TextField imageNameTextField;
 
-	/** The clear button. */
-	@FXML
-	private Button clearButton;
+    @FXML
+    private Button uploadButton;
 
-	/** The cancel button. */
-	@FXML
-	private Button cancelButton;
+    @FXML
+    private Button clearButton;
 
-	/** The private radio button. */
-	@FXML
-	private RadioButton privateRadioButton;
+    @FXML
+    private Button cancelButton;
 
-	/** The shareable radio button. */
-	@FXML
-	private RadioButton shareableRadioButton;
+    @FXML
+    private RadioButton privateRadioButton;
 
-	/** The categories combo box. */
-	@FXML
-	private ComboBox<?> categoriesComboBox;
+    @FXML
+    private RadioButton shareableRadioButton;
 
-	/** The category label. */
-	@FXML
-	private Label categoryLabel;
+    @FXML
+    private ComboBox<?> categoriesComboBox;
 
-	/** The manager. */
-	private LoginManager manager;
+    @FXML
+    private Label categoryLabel;
 
-	/**
-	 * On clear clicked.
-	 *
-	 * @param event the event
-	 */
-	@FXML
-	void onClearClicked(MouseEvent event) {
-		this.clearFields();
-	}
+    private LoginManager manager;
 
-	/**
-	 * On upload clicked add new image and go back to main page.
-	 *
-	 * @param event the event
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
-	@FXML
-	void onUploadClicked(MouseEvent event) throws IOException {
-		Image newImage = this.imageView.imageProperty().get();
-		
-		String imageName = this.imageNameTextField.textProperty().getValue();
-		Picture.imageId += 1;
-		Picture test = new Picture(newImage, imageName);
-		
-		LoginManager.loggedInUser.addImage(test);
+    private String defaultImage;
 
-		this.closeWindow();
+    @FXML
+    void onClearClicked(MouseEvent event) {
+        this.clearFields();
+    }
 
-	}
+    @FXML
+    void onUploadClicked(MouseEvent event) throws IOException {
+    	Image newImage = this.imageView.imageProperty().get();
+    	System.out.println(newImage.getUrl());
+    	String imageName = this.imageNameTextField.textProperty().getValue();
+    	Picture.imageId += 1;
+    	Picture test = new Picture(newImage, imageName);
+    	System.out.println(test);
+       LoginManager.loggedInUser.addImage(test);
+    	
+       this.closeWindow();
+    	
+    }
 
-	/**
-	 * Close window and go back to home page.
-	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
-	private void closeWindow() throws IOException {
-		Stage currentStage = (Stage) this.cancelButton.getScene().getWindow();
-		currentStage.close();
+    private void closeWindow() throws IOException {
+            Stage currentStage = (Stage) this.cancelButton.getScene().getWindow();
+        	currentStage.close();
 
-		Parent parent = FXMLLoader.load(Main.class.getResource(Main.MAIN_PAGE));
-		Scene scene = new Scene(parent);
-		Stage maiPage = new Stage();
-		maiPage.setScene(scene);
-		maiPage.setTitle(Main.WINDOW_TITLE);
-		maiPage.show();
-	}
+            Parent parent = FXMLLoader.load(Main.class.getResource(Main.MAIN_PAGE));
+            Scene scene = new Scene(parent);
+            Stage maiPage = new Stage();
+             maiPage.setScene(scene);
+            maiPage.setTitle(Main.WINDOW_TITLE);
+            maiPage.show();
+    }
 
-	/**
-	 * On cancel clicked close the addImage page.
-	 *
-	 * @param event the event
-	 */
-	@FXML
-	void onCancelClicked(MouseEvent event) {
-		Stage addStage = (Stage) this.categoryLabel.getScene().getWindow();
-		addStage.close();
-	}
+    @FXML
+    void onCancelClicked(MouseEvent event) throws IOException {
+        this.closeWindow();
+    }
 
-	/**
-	 * On image view clicked, select new image from file explorer.
-	 *
-	 * @param event the event
-	 */
-	@FXML
-	void onImageViewClicked(MouseEvent event) {
+    
+    @FXML
+    void onImageViewClicked(MouseEvent event) {
 
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Open Image File");
-		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif", "*.bmp"),
-				new ExtensionFilter("All Files", "*.*"));
+        FileChooser fileChooser = new FileChooser();
+	
+		    fileChooser.setTitle("Open Image File");
+		    fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif", "*.bmp"),
+				    new ExtensionFilter("All Files", "*.*"));
 
-		Stage stage = new Stage();
-		File selectedFile = fileChooser.showOpenDialog(stage);
-		if (selectedFile != null) {
+        Stage stage = new Stage();
+		    File selectedFile = fileChooser.showOpenDialog(stage);
+		    if (selectedFile != null) {
 			
-			this.setImage(selectedFile.getPath());
+			    this.setImage(selectedFile.getPath());
 		}
 
 	}
