@@ -14,6 +14,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.zeromq.ZMQ;
+import org.zeromq.ZMQ.Context;
+import org.zeromq.ZMQ.Socket;
 
 /**
  * The Class LoginPage.
@@ -68,13 +71,23 @@ public class LoginPage {
 	 */
 	@FXML
 	private void onLogin(MouseEvent event) throws IOException {
-		String password = this.passwordField.getText();
-		String username = this.usernameField.getText();
+		Context context = ZMQ.context(1);
 
-		if (!this.loginManager.login(username, password)) {
-			this.setErrorText(LoginManager.INCORRECT_LOGIN_INFORMATION);
-		} else {
-			this.setToMainPage();
+        //  Socket to talk to server
+        System.out.println("Connecting to hello world server");
+
+        try (Socket socket = context.socket(ZMQ.REQ)) {
+			socket.connect("tcp://127.0.0.1:5555");
+			
+			String request = "exit";
+			System.out.println("Client - Sending exit");
+			socket.send(request.getBytes(ZMQ.CHARSET), 0);
+			System.out.println("Successful request send.");
+			
+			String help = socket.recvStr();
+			
+			System.out.println("the received string for server: " + help);
+			
 		}
 
 	}
