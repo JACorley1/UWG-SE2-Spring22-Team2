@@ -76,6 +76,7 @@ class Server:
             jsonResponse: str
             print("Received request: %s" % request)
             if (request == "exit"):
+                print("exit request works")
                 return
             else :
                 response = requestHandler.handleRequest(request)
