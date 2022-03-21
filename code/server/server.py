@@ -115,3 +115,10 @@ class Test_RequestManager (unittest.TestCase):
         
         self.assertEquals(response["successCode"], -1, "checking success code")
         self.assertEquals(response["errorMessage"], "Unsupported Request Type (not supported)", "checking error message")
+
+def main():
+    server.run(CredentialsManager())
+
+
+if (__name__ == "__main__"):
+    main()
