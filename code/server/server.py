@@ -87,38 +87,13 @@ class Server:
         
             #  Send reply back to client
             socket.send_string(jsonResponse)
-
-########################################################################
-
-from threading import Thread
-import time
-import unittest
-
-class _DummyCredentialsManager (CredentialsManager):
-    def __init__(self):
-        pass
-
-'''
-Test Class for _RequestManager
-
-@author CS 3212
-@version Sprng 2022
-'''
-class Test_RequestManager (unittest.TestCase):
-    
-    def test_unsupportedRequestType(self):
-        request = {"requestType" : "not supported"}
-        manager = _DummyCredentialsManager()
-        handler = _RequestHandler(manager)
-        
-        response = handler.handleRequest(request)
-        
-        self.assertEquals(response["successCode"], -1, "checking success code")
-        self.assertEquals(response["errorMessage"], "Unsupported Request Type (not supported)", "checking error message")
-
 def main():
-    server.run(CredentialsManager())
+    sv = Server()
+    sv.run(CredentialsManager())
 
 
 if (__name__ == "__main__"):
     main()
+########################################################################
+
+

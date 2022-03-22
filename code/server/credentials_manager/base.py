@@ -6,14 +6,16 @@ import typing
  @version Spring 2022
 '''
 class CredentialsManager:
-    
+    passwords = []
+    usernames = []
     ''' Create a new credential manager with no systems
     
      @precondition none
      @postcondition no systems exist
     '''
     def __init__(self):
-        raise NotImplementedError()
+        print('hello')
+
 
     ''' Add a new system with the specified credentials to the system
      
