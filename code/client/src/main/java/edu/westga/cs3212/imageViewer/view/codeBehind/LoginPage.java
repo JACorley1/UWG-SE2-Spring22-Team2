@@ -79,7 +79,7 @@ public class LoginPage {
         try (Socket socket = context.socket(ZMQ.REQ)) {
 			socket.connect("tcp://127.0.0.1:5555");
 			
-			String request = "exit";
+			String request = "{\"requestType\" : \"exit\"}";
 			System.out.println("Client - Sending exit");
 			socket.send(request.getBytes(ZMQ.CHARSET), 0);
 			System.out.println("Successful request send.");
