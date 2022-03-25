@@ -44,6 +44,9 @@ public class HomePage {
     @FXML
     private Button addImageButton;
     
+    @FXML
+    private Button deleteImageButton;
+    
     /**
      * Initialize.
      */
@@ -124,6 +127,11 @@ public class HomePage {
         loginPage.setScene(scene);
         loginPage.setTitle(Main.WINDOW_TITLE);
         loginPage.show();
+    }
+	
+	@FXML
+    void onDeleteImageClick(ActionEvent event) {
+
     }
 }
 
