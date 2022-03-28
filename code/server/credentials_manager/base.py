@@ -13,32 +13,19 @@ class CredentialsManager:
      @postcondition no systems exist
     '''
     def __init__(self):
-        keys = ["User", "Username", "Password"]
-        values = ["admin","inifinity","gauntlet"]
-        allCredentials = dict( zip(L1,L2) )
+        global allCredentials
+        keys = ["Admin"]
+        values = [{"Username": "inifinity", "Password": "gauntlet"}]
+        allCredentials = dict( zip(keys,values) )
 
-
-    ''' Add a new system with the specified credentials to the system
-     
-     @precondition systemName != null && !systemName.isEmpty() &&
-                     username != null &&
-                     password != null &&
-                     !getSystemNames().contains(systemName)
-     @postcondition getSystemNames().contains(systemName) &&
-                      getUsername(systemName).equals(username) &&
-                      getPassword(systemName).equals(password)
-     
-     @param systemName name of the system
-     @param username username for the system
-     @param password password for the system
-     
-     @return true  if system added successfully
-               false if system not added successfully
-    '''
-    def addSystem(self, systemName: str, username: str, password: str) -> bool:
-        dict.update({"user": systemName, "username": username, "password": password})
+    def addSystem(self, username: str, password: str) -> bool:
+        global allCredentials
+        allCredentials.update({username: {"Username": username, "Password": password}})
         return True
     
+    def getSystems(self) -> dict:
+        global allCredentials
+        return allCredentials
     ''' Retrieves a list of the names for all systems with credentials in the password manager
      
      @precondition none
