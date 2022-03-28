@@ -5,7 +5,6 @@ import edu.westga.cs3212.imageViewer.model.LoginManager;
 import edu.westga.cs3212.imageViewer.model.Picture;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.Property;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -75,26 +74,28 @@ public class ImageViewModel {
     	this.imageInventory.addImage(test);
     	System.out.println(test);
     	LoginManager.loggedInUser.addImage(test);
+    	this.pictureListProperty.set(FXCollections.observableArrayList(this.imageInventory.getPictures()));
 	}
 	
-//	/**
-//	 * Deletes a picture from the view
-//	 * 
-//	 * @precondition none
-//	 * @postcondition a picture has been deleted
-//	 * 
-//	 * @return true if a picture has been deleted; false otherwise
-//	 */
-//	public boolean deletePicture() {
-//		Image img = this.imageView.imageProperty().get();
+	/**
+	 * Deletes a picture from the view
+	 * 
+	 * @precondition none
+	 * @postcondition a picture has been deleted
+	 * 
+	 * @return true if a picture has been deleted; false otherwise
+	 */
+	public void deletePicture() {
+		Image img = this.imageProperty.get();
 //		String title = this.titleProperty.getValue();
-//		Picture picture = new Picture(img, title);
-//		
+//		Picture picture = new Picture(img);
+//		System.out.println(picture.getImageId());
+		//LoginManager.loggedInUser.deleteImage(picture);
+		
 //		if (picture != null) {
 //			this.imageInventory.removeImage(picture);
 //			this.pictureListProperty.set(FXCollections.observableArrayList(this.imageInventory.getPictures()));
 //		}
-//		
-//		return false;
-//	}
+		
+	}
 }

@@ -7,7 +7,9 @@ import edu.westga.cs3212.imageViewer.Main;
 import edu.westga.cs3212.imageViewer.model.LoginManager;
 import edu.westga.cs3212.imageViewer.model.Picture;
 import edu.westga.cs3212.imageViewer.model.User;
+import edu.westga.cs3212.imageViewer.view.viewModel.ImageViewModel;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -47,13 +49,19 @@ public class HomePage {
     @FXML
     private Button deleteImageButton;
     
+    private ImageViewModel viewModel;
+    
+    public HomePage() {
+    	this.viewModel = new ImageViewModel();
+    }
+    
     /**
      * Initialize.
      */
     @FXML
     public void initialize() {
     	this.populateVBox();
-
+    	//this.bindToViewModel();
     }
 
     /**
@@ -71,7 +79,12 @@ public class HomePage {
 		// this.imageListView.itemsProperty().setValue(images);
  
 	}
-
+    
+    private void bindToViewModel() {
+    	//this.imageListView.itemsProperty().bind((ObservableValue<? extends ObservableList<ImageView>>) this.viewModel.getPictureListProperty());
+    	//this.imageListView.itemsProperty().bind((ObservableValue<? extends ObservableList<ImageView>>) this.viewModel.getPictureListProperty());
+		//this.viewModel.getSelectedPictureProperty().bind(this.imageListView.getSelectionModel().selectedItemProperty());
+    }
 	/**
 	 * Sets the up image views.
 	 *
@@ -131,7 +144,7 @@ public class HomePage {
 	
 	@FXML
     void onDeleteImageClick(ActionEvent event) {
-
+		this.viewModel.deletePicture();
     }
 }
 
