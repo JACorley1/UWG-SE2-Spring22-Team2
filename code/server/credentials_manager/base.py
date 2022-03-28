@@ -6,15 +6,16 @@ import typing
  @version Spring 2022
 '''
 class CredentialsManager:
-    passwords = []
-    usernames = []
+    global allCredentials
     ''' Create a new credential manager with no systems
     
      @precondition none
      @postcondition no systems exist
     '''
     def __init__(self):
-        print('hello')
+        keys = ["User", "Username", "Password"]
+        values = ["admin","inifinity","gauntlet"]
+        allCredentials = dict( zip(L1,L2) )
 
 
     ''' Add a new system with the specified credentials to the system
@@ -35,7 +36,8 @@ class CredentialsManager:
                false if system not added successfully
     '''
     def addSystem(self, systemName: str, username: str, password: str) -> bool:
-        raise NotImplementedError()
+        dict.update({"user": systemName, "username": username, "password": password})
+        return True
     
     ''' Retrieves a list of the names for all systems with credentials in the password manager
      
