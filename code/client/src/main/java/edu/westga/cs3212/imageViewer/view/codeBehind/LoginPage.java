@@ -86,6 +86,14 @@ public class LoginPage {
 			
 			String help = socket.recvStr();
 			
+			
+//			JSONObject checker = new JSONObject(help);
+//			
+//			int success = checker.getInt("successCode");
+//			
+//			if(success == 1) {
+//				this.setToMainPage();
+//			}
 			System.out.println("the received string for server: " + help);
 			
 		}
