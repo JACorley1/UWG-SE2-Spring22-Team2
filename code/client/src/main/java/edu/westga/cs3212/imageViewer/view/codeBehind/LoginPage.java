@@ -14,6 +14,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import org.json.JSONObject;
 import org.zeromq.ZMQ;
 import org.zeromq.ZMQ.Context;
 import org.zeromq.ZMQ.Socket;
@@ -87,13 +89,13 @@ public class LoginPage {
 			String help = socket.recvStr();
 			
 			
-//			JSONObject checker = new JSONObject(help);
-//			
-//			int success = checker.getInt("successCode");
-//			
-//			if(success == 1) {
-//				this.setToMainPage();
-//			}
+			JSONObject checker = new JSONObject(help);
+			
+			int success = checker.getInt("successCode");
+			System.out.println("This is the successCode: " + success);
+			if(success == 1) {
+				this.setToMainPage();
+			}
 			System.out.println("the received string for server: " + help);
 			
 		}
