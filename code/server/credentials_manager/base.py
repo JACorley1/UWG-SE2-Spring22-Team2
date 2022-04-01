@@ -22,6 +22,16 @@ class CredentialsManager:
         global allCredentials
         allCredentials.update({username: {"Username": username, "Password": password}})
         return True
+        
+    ''' checks if a usernam password combo exists in the allCredentials dictionary
+    
+     @precondition none
+     @postcondition none
+    '''    
+    def systemExists(self, username: str, password: str) -> bool:
+        global allCredentials
+        
+        return ((username,password) in allCredentials.items())
     
     ''' Retrieves a list of the names for all systems with credentials in the password manager
      
