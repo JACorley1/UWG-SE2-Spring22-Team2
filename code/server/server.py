@@ -35,12 +35,31 @@ class _RequestHandler:
         response = {"successCode": 1, "names": systemNames}
         return response
         
+        ''' Returns a response for the getSystemNames request
+     Format: comma separated list of all system names
+     
+     @precondition none
+     @postcondition none
+     
+     @return response string using appropriate format (see description for details)
+    '''
+    def _login(self, username: str, password:str) -> MutableMapping[str, Any]:
+        systemNames = self._credentialsManager.systemExists(username,password)
+        if(sytemNames == True)
+            response = {"successCode": 1}
+        else :
+            response = {"successCode": -1}
+            
+        return response
+    
     def handleRequest(self, request: MutableMapping[str, Any]) -> MutableMapping[str, Any]:
         response: MutableMapping[str, Any]
         if ("requestType" not in request) :
             response = {"successCode": -1, "errorMessage": "Malformed Request, missing Request Type"}
         if (request["requestType"] == "getSystemNames") :
             response = self._getSystemNames()
+        if (request["requestType"] == "login") :
+            response = self._login(request["username"], request["password"])
         else :
             errorMessage = "Unsupported Request Type ({requestType})".format(requestType = request['requestType'])
             response = {"successCode": -1, "errorMessage": errorMessage}
