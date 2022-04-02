@@ -19,17 +19,19 @@ public class ImageViewModel {
 	private final ObjectProperty<Picture> selectedPictureProperty;
 	private final ObjectProperty<Image> imageProperty;
 	private final StringProperty titleProperty;
-	
+
 	private ImageInventory imageInventory;
 	private ImageView imageView;
 	
-	
+	/**
+	 * Instantiates an ImageViewModel.
+	 */
 	public ImageViewModel() {
-		
+
 		this.selectedPictureProperty = new SimpleObjectProperty<Picture>();
 		this.imageProperty = new SimpleObjectProperty<Image>();
 		this.titleProperty = new SimpleStringProperty();
-		
+
 		this.imageInventory = new ImageInventory();
 		this.imageView = new ImageView();
 		this.pictureListProperty = new SimpleListProperty<Image>();
@@ -52,11 +54,11 @@ public class ImageViewModel {
 	public ObjectProperty<Picture> getSelectedPictureProperty() {
 		return this.selectedPictureProperty;
 	}
-	
+
 	public ObjectProperty<Image> getImageProperty() {
 		return this.imageProperty;
 	}
-	
+
 	/**
 	 * Gets the title property
 	 * 
@@ -66,18 +68,24 @@ public class ImageViewModel {
 		return this.titleProperty;
 	}
 	
+	/**
+	 * Adds a picture to the view
+	 * 
+	 * @precondition none
+	 * @postcondition a picture has been added to view
+	 */
 	public void addPicture() {
 		Image newImage = this.imageProperty.get();
-    	//System.out.println(newImage.getUrl());
-    	String imageName = this.titleProperty.getValue();
-    	Picture.imageId += 1;
-    	Picture test = new Picture(newImage, imageName);
-    	this.imageInventory.addImage(test);
-    	System.out.println(test);
-    	LoginManager.loggedInUser.addImage(test);
-    	this.pictureListProperty.set(FXCollections.observableArrayList(this.imageInventory.getPictures()));
+		// System.out.println(newImage.getUrl());
+		String imageName = this.titleProperty.getValue();
+		Picture.imageId += 1;
+		Picture test = new Picture(newImage, imageName);
+		this.imageInventory.addImage(test);
+		System.out.println(test);
+		LoginManager.loggedInUser.addImage(test);
+		this.pictureListProperty.set(FXCollections.observableArrayList(this.imageInventory.getPictures()));
 	}
-	
+
 	/**
 	 * Deletes a picture from the view
 	 * 
@@ -86,25 +94,21 @@ public class ImageViewModel {
 	 * 
 	 * @return true if a picture has been deleted; false otherwise
 	 */
-	public void deletePicture(Image picture) {
-		
-		// Image img = this.imageProperty.get();
-		// String title = this.titleProperty.getValue();
-		// Picture picture = new Picture(img,title);
-		// System.out.println(picture.getImageId());
-		// LoginManager.loggedInUser.getImages().removeImage(picture);
-
-		LoginManager  login = new LoginManager();
-		for (User currUser  : login.getUsers()) {
+	public boolean deletePicture(Image picture) {
+		LoginManager login = new LoginManager();
+		for (User currUser : login.getUsers()) {
 			if (currUser.getImages().getPictures().contains(picture)) {
 				currUser.getImages().removeImage(picture);
 			}
 		}
-		
+
 		if (picture != null) {
-		this.imageInventory.removeImage(picture);
+			this.imageInventory.removeImage(picture);
 			this.pictureListProperty.set(FXCollections.observableArrayList(this.imageInventory.getPictures()));
+			return true;
 		}
 		
+		return false;
+
 	}
 }
