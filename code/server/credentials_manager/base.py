@@ -14,14 +14,17 @@ class CredentialsManager:
     '''
     def __init__(self):
         global allCredentials
-        keys = ["Admin"]
-        values = [{"Username": "inifinity", "Password": "gauntlet"}]
+        keys = ["infinity"]
+        values = [{"Username": "infinity", "Password": "gauntlet"}]
         allCredentials = dict( zip(keys,values) )
 
     def addSystem(self, username: str, password: str) -> bool:
         global allCredentials
-        allCredentials.update({username: {"Username": username, "Password": password}})
-        return True
+        if (self.systemExists(username, password) is False):
+            allCredentials.update({username: {"Username": username, "Password": password}})
+            return True
+        else :
+            return False
         
     ''' checks if a usernam password combo exists in the allCredentials dictionary
     
@@ -31,7 +34,8 @@ class CredentialsManager:
     def systemExists(self, username: str, password: str) -> bool:
         global allCredentials
         
-        return ((username,password) in allCredentials.items())
+        return ((username,{"Username": username, "Password": password}) in allCredentials.items())
+        print((username,password) in allCredentials.items())
     
     ''' Retrieves a list of the names for all systems with credentials in the password manager
      

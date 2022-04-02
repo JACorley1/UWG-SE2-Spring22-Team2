@@ -35,7 +35,7 @@ class _RequestHandler:
         response = {"successCode": 1, "names": systemNames}
         return response
         
-        ''' Returns a response for the getSystemNames request
+    ''' Returns a response for the getSystemNames request
      Format: comma separated list of all system names
      
      @precondition none
@@ -43,9 +43,8 @@ class _RequestHandler:
      
      @return response string using appropriate format (see description for details)
     '''
-    def _login(self, username: str, password:str) -> MutableMapping[str, Any]:
-        systemNames = self._credentialsManager.systemExists(username,password)
-        if(sytemNames == True)
+    def _login(self, usernameInput: str, passwordInput:str) -> MutableMapping[str, Any]:       
+        if(self._credentialsManager.systemExists(usernameInput, passwordInput) is True) :
             response = {"successCode": 1}
         else :
             response = {"successCode": -1}

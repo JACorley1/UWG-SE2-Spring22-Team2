@@ -74,6 +74,8 @@ public class LoginPage {
 	@FXML
 	private void onLogin(MouseEvent event) throws IOException {
 		Context context = ZMQ.context(1);
+		String user = this.usernameField.textProperty().get();
+		String pass = this.passwordField.textProperty().get();
 
         //  Socket to talk to server
         System.out.println("Connecting to hello world server");
@@ -81,7 +83,7 @@ public class LoginPage {
         try (Socket socket = context.socket(ZMQ.REQ)) {
 			socket.connect("tcp://127.0.0.1:5555");
 			
-			String request = "{\"requestType\" : \"getSystemNames\"}";
+			String request = "{\"requestType\" : \"login\", \"username\": \""+user+"\", \"password\":\""+pass+"\"}";
 			System.out.println("Client - Sending exit");
 			socket.send(request.getBytes(ZMQ.CHARSET), 0);
 			System.out.println("Successful request send.");
