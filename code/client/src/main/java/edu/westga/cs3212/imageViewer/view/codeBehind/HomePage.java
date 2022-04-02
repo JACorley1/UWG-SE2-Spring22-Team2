@@ -18,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -48,6 +49,9 @@ public class HomePage {
     
     @FXML
     private Button deleteImageButton;
+    
+    @FXML
+    private Label errorLabel;
     
     private ImageViewModel viewModel;
     
@@ -145,8 +149,23 @@ public class HomePage {
 	
 	@FXML
     void onDeleteImageClick(ActionEvent event) {
-		this.viewModel.deletePicture(this.imageListView.getSelectionModel().selectedItemProperty().get().getImage());
-		this.populateVBox();
+		if (this.imageListView.getItems().isEmpty()) {
+			this.setErrorLabel("There are no images!");
+		} else {
+			this.viewModel.deletePicture(this.imageListView.getSelectionModel().selectedItemProperty().get().getImage());
+			this.populateVBox();
+		}
     }
+	
+	/**
+	 * Sets the error label.
+	 *
+	 * @param text the new error text
+	 */
+	private void setErrorLabel(String text) {
+		this.errorLabel.setText(text);
+		this.errorLabel.disableProperty().setValue(false);
+		this.errorLabel.setVisible(true);
+	}
 }
 
