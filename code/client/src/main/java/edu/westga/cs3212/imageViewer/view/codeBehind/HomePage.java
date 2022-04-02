@@ -94,6 +94,7 @@ public class HomePage {
 	private ArrayList<ImageView> setUpImageViews(User currentUser) {
 		ArrayList<ImageView> allImages = new ArrayList<ImageView>();
 		LoginManager login = new LoginManager();
+
 		for (User currUser : login.getUsers()) {
 			for(Image img: currUser.getImages().getPictures()) {
 				ImageView someImage = new ImageView();
@@ -144,7 +145,8 @@ public class HomePage {
 	
 	@FXML
     void onDeleteImageClick(ActionEvent event) {
-		this.viewModel.deletePicture();
+		this.viewModel.deletePicture(this.imageListView.getSelectionModel().selectedItemProperty().get().getImage());
+		this.populateVBox();
     }
 }
 
