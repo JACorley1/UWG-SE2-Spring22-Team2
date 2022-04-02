@@ -16,8 +16,9 @@ class TestRemoveImage {
 	@Test
 	void testNullImage() {
 		ImageInventory inventory = new ImageInventory();
+		Picture picture = null;
 		assertThrows(IllegalArgumentException.class, () -> {
-			inventory.removeImage(null);
+			inventory.removeImage(picture);
 		});
 	}
 	
