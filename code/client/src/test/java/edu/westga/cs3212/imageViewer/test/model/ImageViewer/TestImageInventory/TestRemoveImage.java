@@ -14,11 +14,20 @@ import javafx.scene.image.Image;
 class TestRemoveImage {
 
 	@Test
-	void testNullImage() {
+	void testNullPicture() {
 		ImageInventory inventory = new ImageInventory();
 		Picture picture = null;
 		assertThrows(IllegalArgumentException.class, () -> {
 			inventory.removeImage(picture);
+		});
+	}
+	
+	@Test
+	void testNullImage() {
+		ImageInventory inventory = new ImageInventory();
+		Image image = null;
+		assertThrows(IllegalArgumentException.class, () -> {
+			inventory.removeImage(image);
 		});
 	}
 	
