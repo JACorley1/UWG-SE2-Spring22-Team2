@@ -5,8 +5,8 @@ This document should contain:
  * Run  Instructions:
  * Download Maven
  * Download git bash
- * click <code>, <client>
- * right click, click <git bash here>
+ * click "code", click "client"
+ * right click, click "git bash here"
  * type mvn javafx:run
- * press <Enter>
+ * press "Enter"
   
