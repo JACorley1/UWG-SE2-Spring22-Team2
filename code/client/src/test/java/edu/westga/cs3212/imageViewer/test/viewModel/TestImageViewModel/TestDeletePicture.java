@@ -41,5 +41,15 @@ class TestDeletePicture {
 		}
 
 	}
+	
+	@Test
+	void testFalseDeletePicture() {
+		LoginManager login = new LoginManager();
+		ImageViewModel viewModel = new ImageViewModel();
+		User aUser = new User("username", "password");
+		login.addUser(aUser);
+
+		assertEquals(false, viewModel.deletePicture(null));
+	}
 
 }
