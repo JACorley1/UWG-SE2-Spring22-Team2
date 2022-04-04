@@ -8,6 +8,7 @@ import java.io.IOException;
 import edu.westga.cs3212.imageViewer.Main;
 import edu.westga.cs3212.imageViewer.model.LoginManager;
 import edu.westga.cs3212.imageViewer.model.Picture;
+import edu.westga.cs3212.imageViewer.view.viewModel.ImageViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -61,6 +62,12 @@ public class AddImage {
     private LoginManager manager;
 
     private String defaultImage;
+    
+    private ImageViewModel viewModel;
+    
+    public AddImage() {
+    	this.viewModel = new ImageViewModel();
+    }
 
     @FXML
     void onClearClicked(MouseEvent event) {
@@ -69,15 +76,16 @@ public class AddImage {
 
     @FXML
     void onUploadClicked(MouseEvent event) throws IOException {
-    	Image newImage = this.imageView.imageProperty().get();
-    	System.out.println(newImage.getUrl());
-    	String imageName = this.imageNameTextField.textProperty().getValue();
-    	Picture.imageId += 1;
-    	Picture test = new Picture(newImage, imageName);
-    	System.out.println(test);
-       LoginManager.loggedInUser.addImage(test);
+//    	Image newImage = this.imageView.imageProperty().get();
+//    	System.out.println(newImage.getUrl());
+//    	String imageName = this.imageNameTextField.textProperty().getValue();
+//    	Picture.imageId += 1;
+//    	Picture test = new Picture(newImage, imageName);
+//    	System.out.println(test);
+//       LoginManager.loggedInUser.addImage(test);
+    	this.viewModel.addPicture();
     	
-       this.closeWindow();
+    	this.closeWindow();
     	
     }
 
@@ -122,9 +130,11 @@ public class AddImage {
 	 */
 	@FXML
 	public void initialize() {
+		this.bindToViewModel();
 		Tooltip.install(this.imageView, new Tooltip("Click here to upload a new image."));
 		this.manager = new LoginManager();
 		this.setImage("Assets/upload.jpg");
+		
 	}
 
 	/**
@@ -147,5 +157,10 @@ public class AddImage {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void bindToViewModel() {
+		this.imageNameTextField.textProperty().bindBidirectional(this.viewModel.getTitleProperty());
+		this.imageView.imageProperty().bindBidirectional(this.viewModel.getImageProperty());
 	}
 }

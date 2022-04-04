@@ -7,7 +7,9 @@ import edu.westga.cs3212.imageViewer.Main;
 import edu.westga.cs3212.imageViewer.model.LoginManager;
 import edu.westga.cs3212.imageViewer.model.Picture;
 import edu.westga.cs3212.imageViewer.model.User;
+import edu.westga.cs3212.imageViewer.view.viewModel.ImageViewModel;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -44,13 +47,25 @@ public class HomePage {
     @FXML
     private Button addImageButton;
     
+    @FXML
+    private Button deleteImageButton;
+    
+    @FXML
+    private Label errorLabel;
+    
+    private ImageViewModel viewModel;
+    
+    public HomePage() {
+    	this.viewModel = new ImageViewModel();
+    }
+    
     /**
      * Initialize.
      */
     @FXML
     public void initialize() {
     	this.populateVBox();
-
+    	//this.bindToViewModel();
     }
 
     /**
@@ -68,7 +83,12 @@ public class HomePage {
 		// this.imageListView.itemsProperty().setValue(images);
  
 	}
-
+    
+    private void bindToViewModel() {
+    	//this.imageListView.itemsProperty().bind((ObservableValue<? extends ObservableList<ImageView>>) this.viewModel.getPictureListProperty());
+    	//this.imageListView.itemsProperty().bind((ObservableValue<? extends ObservableList<ImageView>>) this.viewModel.getPictureListProperty());
+		//this.viewModel.getSelectedPictureProperty().bind(this.imageListView.getSelectionModel().selectedItemProperty());
+    }
 	/**
 	 * Sets the up image views.
 	 *
@@ -78,6 +98,7 @@ public class HomePage {
 	private ArrayList<ImageView> setUpImageViews(User currentUser) {
 		ArrayList<ImageView> allImages = new ArrayList<ImageView>();
 		LoginManager login = new LoginManager();
+
 		for (User currUser : login.getUsers()) {
 			for(Image img: currUser.getImages().getPictures()) {
 				ImageView someImage = new ImageView();
@@ -125,5 +146,26 @@ public class HomePage {
         loginPage.setTitle(Main.WINDOW_TITLE);
         loginPage.show();
     }
+	
+	@FXML
+    void onDeleteImageClick(ActionEvent event) {
+		if (this.imageListView.getItems().isEmpty()) {
+			this.setErrorLabel("There are no images!");
+		} else {
+			this.viewModel.deletePicture(this.imageListView.getSelectionModel().selectedItemProperty().get().getImage());
+			this.populateVBox();
+		}
+    }
+	
+	/**
+	 * Sets the error label.
+	 *
+	 * @param text the new error text
+	 */
+	private void setErrorLabel(String text) {
+		this.errorLabel.setText(text);
+		this.errorLabel.disableProperty().setValue(false);
+		this.errorLabel.setVisible(true);
+	}
 }
 
