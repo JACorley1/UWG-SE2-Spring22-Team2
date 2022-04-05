@@ -61,12 +61,14 @@ public class LoginPage {
 		String password = this.passwordField.getText();
 		String username = this.usernameField.getText();
 
+		this.serverSideLogin();
+		
 		if (!this.loginManager.login(username, password)) {
 			this.setErrorText(LoginManager.INCORRECT_LOGIN_INFORMATION);
 		} else {
 			this.setToMainPage();
 		}
-		this.serverSideLogin();
+		
 
 	}
 	
@@ -83,10 +85,12 @@ public class LoginPage {
 		String username = this.usernameField.getText();
 		User user = new User(username, password);
 
+		
+		this.serverSideCreateAccount();
+		
 		if (!this.loginManager.addUser(user)) {
 			this.setErrorText(LoginManager.DUPLICATE_USERNAME);
 		}
-		this.serverSideCreateAccount();
 	}
 
 	private void serverSideLogin() throws IOException {
@@ -168,7 +172,7 @@ public class LoginPage {
 		this.errorText.setText(text);
 		this.errorText.disableProperty().setValue(false);
 		this.errorText.setVisible(true);
-		this.passwordField.setText("");
+		//this.passwordField.setText("");
 	}
 
 	/**

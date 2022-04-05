@@ -52,11 +52,12 @@ class _RequestHandler:
         return response
     
     def _createAccount(self, usernameInput: str, passwordInput:str) -> MutableMapping[str, Any]:       
-        self._credentialsManager.addSystem(usernameInput, passwordInput)
+        
         if(self._credentialsManager.systemExists(usernameInput, passwordInput) is True) :
-            response = {"successCode": 1}
-        else :
             response = {"successCode": -1}
+        else :
+            self._credentialsManager.addSystem(usernameInput, passwordInput)
+            response = {"successCode": 1}
             
         return response
         
