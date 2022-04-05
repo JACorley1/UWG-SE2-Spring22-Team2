@@ -48,22 +48,7 @@ public class LoginPage {
 	/** The login manager. */
 	private LoginManager loginManager;
 
-	/**
-	 * On create account clicked.
-	 *
-	 * @param event the event
-	 */
-	@FXML
-	private void onCreateAccountClicked(MouseEvent event) {
 
-		String password = this.passwordField.getText();
-		String username = this.usernameField.getText();
-		User user = new User(username, password);
-
-		if (!this.loginManager.addUser(user)) {
-			this.setErrorText(LoginManager.DUPLICATE_USERNAME);
-		}
-	}
 
 	/**
 	 * On login.
@@ -73,6 +58,38 @@ public class LoginPage {
 	 */
 	@FXML
 	private void onLogin(MouseEvent event) throws IOException {
+		String password = this.passwordField.getText();
+		String username = this.usernameField.getText();
+
+		if (!this.loginManager.login(username, password)) {
+			this.setErrorText(LoginManager.INCORRECT_LOGIN_INFORMATION);
+		} else {
+			this.setToMainPage();
+		}
+		this.serverSideLogin();
+
+	}
+	
+	/**
+	 * On create account clicked.
+	 *
+	 * @param event the event
+	 * @throws IOException 
+	 */
+	@FXML
+	private void onCreateAccountClicked(MouseEvent event) throws IOException {
+
+		String password = this.passwordField.getText();
+		String username = this.usernameField.getText();
+		User user = new User(username, password);
+
+		if (!this.loginManager.addUser(user)) {
+			this.setErrorText(LoginManager.DUPLICATE_USERNAME);
+		}
+		this.serverSideCreateAccount();
+	}
+
+	private void serverSideLogin() throws IOException {
 		Context context = ZMQ.context(1);
 		String user = this.usernameField.textProperty().get();
 		String pass = this.passwordField.textProperty().get();
@@ -80,11 +97,12 @@ public class LoginPage {
         //  Socket to talk to server
         System.out.println("Connecting to hello world server");
 
-        try (Socket socket = context.socket(ZMQ.REQ)) {
+        try (@SuppressWarnings("deprecation")
+		Socket socket = context.socket(ZMQ.REQ)) {
 			socket.connect("tcp://127.0.0.1:5555");
 			
 			String request = "{\"requestType\" : \"login\", \"username\": \""+user+"\", \"password\":\""+pass+"\"}";
-			System.out.println("Client - Sending exit");
+			System.out.println("Client - Sending Login Request");
 			socket.send(request.getBytes(ZMQ.CHARSET), 0);
 			System.out.println("Successful request send.");
 			
@@ -94,14 +112,51 @@ public class LoginPage {
 			JSONObject checker = new JSONObject(help);
 			
 			int success = checker.getInt("successCode");
-			System.out.println("This is the successCode: " + success);
+			
 			if(success == 1) {
-				this.setToMainPage();
+				System.out.println("Account Login Successfull" );
+			}
+			else {
+				System.out.println("Account Login Failed" );
 			}
 			System.out.println("the received string for server: " + help);
 			
 		}
+	}
+	
+	private void serverSideCreateAccount() throws IOException {
+		Context createAccountContext = ZMQ.context(1);
+		String user = this.usernameField.textProperty().get();
+		String pass = this.passwordField.textProperty().get();
 
+        //  Socket to talk to server
+        System.out.println("Connecting to hello world server");
+
+        try (@SuppressWarnings("deprecation")
+		Socket createAccountsocket = createAccountContext.socket(ZMQ.REQ)) {
+        	createAccountsocket.connect("tcp://127.0.0.1:5555");
+			
+			String createAccountRequest = "{\"requestType\" : \"createAccount\", \"username\": \""+user+"\", \"password\":\""+pass+"\"}";
+			System.out.println("Client - Sending create Account Request");
+			createAccountsocket.send(createAccountRequest.getBytes(ZMQ.CHARSET), 0);
+			System.out.println("Successful request send.");
+			
+			String help = createAccountsocket.recvStr();
+			
+			
+			JSONObject checker = new JSONObject(help);
+			
+			int success = checker.getInt("successCode");
+			
+			if(success == 1) {
+				System.out.println("Account Creation Successfull" );
+			}
+			else {
+				System.out.println("Account Creation Failed" );
+			}
+			System.out.println("the received string for server: " + help);
+			
+		}
 	}
 
 	/**
