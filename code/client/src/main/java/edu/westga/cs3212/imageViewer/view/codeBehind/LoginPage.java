@@ -172,7 +172,7 @@ public class LoginPage {
 		this.errorText.setText(text);
 		this.errorText.disableProperty().setValue(false);
 		this.errorText.setVisible(true);
-		//this.passwordField.setText("");
+		
 	}
 
 	/**

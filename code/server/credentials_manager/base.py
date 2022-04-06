@@ -31,7 +31,7 @@ class CredentialsManager:
     def systemExists(self, username: str, password: str) -> bool:
          
         if(username in self._allCredentials) :
-            return True  
+            return ((username,{"Username": username, "Password": password}) in self._allCredentials.items())  
         
         else :
             return False
