@@ -1,3 +1,4 @@
+from msilib.schema import Class
 import typing
 
 ''' Manages the set of system credentials for a single user.
@@ -62,5 +63,9 @@ class CredentialsManager:
     def getSystemPassword(self, systemName: str) -> str:
         raise NotImplementedError()
 
+
+class Image:
     
-    
+    def __init__(self, name, imageBytes ):
+        self.name = name
+        self.imageBytes = imageBytes

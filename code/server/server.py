@@ -1,6 +1,9 @@
+from asyncio.windows_events import NULL
+from urllib import response
 import zmq # type: ignore
 import time, json
 from credentials_manager.base import CredentialsManager
+from credentials_manager.base import Image
 from typing import MutableMapping, Any
 
 ''' Handles server requests and returns appropriately formatted responses
@@ -21,6 +24,7 @@ class _RequestHandler:
         if (not isinstance(credentialsManager, CredentialsManager)):
             raise Exception("Must provide a subtype of CredentialsManager")
         self._credentialsManager = credentialsManager
+        self.images = []
     
     ''' Returns a response for the getSystemNames request
      Format: comma separated list of all system names
@@ -60,6 +64,23 @@ class _RequestHandler:
             response = {"successCode": 1}
             
         return response
+    
+    def _addImage(self, imageName: str, imageBytes:str) -> MutableMapping[str,Any]:
+        if (imageName == None or imageBytes == None) :
+            response = {"successCode":-1}
+        else :
+            newImage = Image(imageName, imageBytes)
+            self.images.append(newImage)
+            response = {"successCode": 1}
+        return response
+    
+    def _getImages(self) -> MutableMapping[str,Any]:
+        returnImages = []
+        for image in self.images:
+            returnImages.append(image.imageBytes)
+        response = {"successCode": 1, "images": returnImages}
+        return response
+
         
     def handleRequest(self, request: MutableMapping[str, Any]) -> MutableMapping[str, Any]:
         response: MutableMapping[str, Any]
@@ -71,6 +92,10 @@ class _RequestHandler:
             response = self._login(request["username"], request["password"])
         elif (request["requestType"] == "createAccount") :
             response = self._createAccount(request["username"], request["password"])
+        elif (request["requestType"] == "addImage"):
+            response = self._addImage(request["imageName"], request["imageBytes"])
+        elif (request["requestType"] == "getImages") :
+            response = self._getImages()
         else :
             errorMessage = "Unsupported Request Type ({requestType})".format(requestType = request['requestType'])
             response = {"successCode": -1, "errorMessage": errorMessage}
@@ -104,7 +129,10 @@ class Server:
             jsonRequest = socket.recv_string()
             request = json.loads(jsonRequest)
             jsonResponse: str
-            print("Received request: %s" % request)
+
+            if (request["requestType"] != "addImage"):
+                print("Received request: %s" % request)
+            
             if (request == "exit"):
                 print("exit request works")
                 return
