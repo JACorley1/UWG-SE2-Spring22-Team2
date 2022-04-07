@@ -81,15 +81,15 @@ public class ImageViewModel {
 	 * @postcondition a picture has been added to view
 	 */
 	public void addPicture() {
-		Image newImage = this.imageProperty.get();
-		// System.out.println(newImage.getUrl());
-		String imageName = this.titleProperty.getValue();
-		Picture.imageId += 1;
-		Picture test = new Picture(newImage, imageName);
-		this.imageInventory.addImage(test);
-		System.out.println(test);
-		LoginManager.loggedInUser.addImage(test);
-		this.pictureListProperty.set(FXCollections.observableArrayList(this.imageInventory.getPictures()));
+		// Image newImage = this.imageProperty.get();
+		// // System.out.println(newImage.getUrl());
+		// String imageName = this.titleProperty.getValue();
+		// Picture.imageId += 1;
+		// Picture test = new Picture(newImage, imageName);
+		// this.imageInventory.addImage(test);
+		// System.out.println(test);
+		// LoginManager.loggedInUser.addImage(test);
+		// this.pictureListProperty.set(FXCollections.observableArrayList(this.imageInventory.getPictures()));
 	}
 
 	/**
@@ -100,9 +100,9 @@ public class ImageViewModel {
 	 * 
 	 * @return true if a picture has been deleted; false otherwise
 	 */
-	public boolean deletePicture(Image picture) {
-		String pictureName = this.removePictureFromClient(picture);
-		System.out.println(pictureName);
+	public boolean deletePicture(int imageId) {
+		//String pictureName = this.removePictureFromClient(picture);
+		System.out.println(imageId);
 		Context getImageContext = ZMQ.context(1);
 
 		// Socket to talk to server
@@ -112,7 +112,7 @@ public class ImageViewModel {
 		Socket deleteImageSocket = getImageContext.socket(ZMQ.REQ)) {
 			deleteImageSocket.connect("tcp://127.0.0.1:5555");
 
-			String deleteImageRequest = "{\"requestType\" : \"deleteImages\", \"name\" : \""+ pictureName + "\"}";
+			String deleteImageRequest = "{\"requestType\" : \"deleteImages\", \"imageId\" : \""+ imageId + "\"}";
 			System.out.println("Client - Sending delete Image Request");
 			deleteImageSocket.send(deleteImageRequest.getBytes(ZMQ.CHARSET), 0);
 			System.out.println("Successful request send.");
@@ -136,20 +136,20 @@ public class ImageViewModel {
 
 	}
 
-	private String removePictureFromClient(Image picture) {
-		String pictureName = "";
-		LoginManager login = new LoginManager();
-		for (User currUser : login.getUsers()) {
-			if (currUser.getImages().getPictures().contains(picture)) {
-				pictureName = currUser.getImages().getImage(picture).getTitle();
-				System.out.println(pictureName + "This is the images name");
-				currUser.getImages().removeImage(picture);
-			}
-		}
-		if (picture != null) {
-			this.imageInventory.removeImage(picture);
-			this.pictureListProperty.set(FXCollections.observableArrayList(this.imageInventory.getPictures()));
-		}
-		return pictureName;
-	}	
+	//private String removePictureFromClient(Image picture) {
+		// String pictureName = "";
+		// LoginManager login = new LoginManager();
+		// for (User currUser : login.getUsers()) {
+		// 	if (currUser.getImages().getPictures().contains(picture)) {
+		// 		pictureName = currUser.getImages().getImage(picture).getTitle();
+		// 		System.out.println(pictureName + "This is the images name");
+		// 		currUser.getImages().removeImage(picture);
+		// 	}
+		// }
+		// if (picture != null) {
+		// 	this.imageInventory.removeImage(picture);
+		// 	this.pictureListProperty.set(FXCollections.observableArrayList(this.imageInventory.getPictures()));
+		// }
+		// return pictureName;
+	//}	
 }

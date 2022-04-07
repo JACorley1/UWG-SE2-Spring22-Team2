@@ -60,9 +60,6 @@ public class LoginPage {
 	private void onLogin(MouseEvent event) throws IOException {
 
 		this.serverSideLogin();
-		
-		
-		
 
 	}
 	

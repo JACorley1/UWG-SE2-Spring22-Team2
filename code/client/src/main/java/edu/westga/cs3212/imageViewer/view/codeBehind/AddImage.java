@@ -1,18 +1,13 @@
 package edu.westga.cs3212.imageViewer.view.codeBehind;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Base64;
 
-import javax.imageio.ImageIO;
-
 import edu.westga.cs3212.imageViewer.Main;
 import edu.westga.cs3212.imageViewer.model.LoginManager;
-import edu.westga.cs3212.imageViewer.model.Picture;
 import edu.westga.cs3212.imageViewer.view.viewModel.ImageViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -118,7 +113,7 @@ public class AddImage {
 
             if (success == 1) {
                 System.out.println("Image Sucessfully Added");
-                LoginManager.loggedInUser.addImage(new Picture(this.imageView.getImage(), imageName));
+               // LoginManager.loggedInUser.addImage(new Picture(this.imageView.getImage(), imageName, 0));
             } else {
                 System.out.println("Image failed to be added");
             }
@@ -200,8 +195,8 @@ public class AddImage {
 
             this.imageInBytes = inputStream.readAllBytes();
             this.imageView.imageProperty().setValue(new Image(new File(imagePath).toURI().toString()));
-
             System.out.println(this.imagePath);
+            inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

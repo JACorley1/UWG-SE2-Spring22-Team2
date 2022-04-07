@@ -1,5 +1,7 @@
 package edu.westga.cs3212.imageViewer.model;
 
+import java.io.InputStream;
+
 import javafx.scene.image.Image;
 
 /**
@@ -8,10 +10,9 @@ import javafx.scene.image.Image;
  * @author Janera Smith & Oumar Diallo
  * @version Spring 2022
  */
-public class Picture {
+public class Picture extends Image {
 	private String title;
-	public static int  imageId = 0;
-	private Image pic;
+	public int imageId;
 
 	/**
 	 * Instantiates the Image with the specified title and image id
@@ -22,34 +23,30 @@ public class Picture {
 	 * @param title   the title of the image
 	 * @param imageId the image id
 	 */
-	public Picture(Image pic,String title) {
+	public Picture(InputStream inputStream, String title, int imageId) {
+		super(inputStream);
 		if (title == null) {
 			throw new IllegalArgumentException("The title cannot be null");
 		}
-
 		this.title = title;
-		this.setPic(pic);
+		this.imageId = imageId;
 	}
 
 	/**
-	 * Gets the pic.
-	 *
-	 * @return the pic
+	 * Instantiates the Image with the specified title and image id
+	 * 
+	 * @precondition title != null && imageId > 0
+	 * @postcondition getTitle() == title && getImageId() == imageId
+	 * 
+	 * @param title   the title of the image
+	 * @param imageId the image id
 	 */
-	public Image getPic() {
-		return this.pic;
-	}
-
-	/**
-	 * Sets the pic.
-	 *
-	 * @param pic the new pic
-	 */
-	public void setPic(Image pic) {
-		if (pic == null) {
-			throw new IllegalArgumentException("The pic cannot be null");
+	public Picture(String url, String title, int imageId) {
+		super(url);
+		if (title == null) {
+			throw new IllegalArgumentException("The title cannot be null");
 		}
-		this.pic = pic;
+		this.title = title;
 	}
 
 	/**
@@ -71,31 +68,28 @@ public class Picture {
 	 * @return the image id
 	 */
 	public int getImageId() {
-		return Picture.imageId;
+		return this.imageId;
 	}
 	
-	/**
-	 * Sets the Image id
-	 * 
-	 * @precondition imageId > 0
-	 * @postcondition getImageId() == imageId
-	 * 
-	 * @param imageId the image id
-	 */
-	public void setImageId(int imageId) {
-		if (imageId <= 0) {
-			throw new IllegalArgumentException("The image id cannot be negative");
-		}
-		
-		Picture.imageId = imageId;
-	}
-
 	/**
 	 * Returns a String representation of the Image object
 	 * 
 	 * @returns String  a string representation of the Image object
 	 */
 	public String toString() {
-		return this.title + ": " + Picture.imageId;
+		return this.title + ": " + this.imageId;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (object == this) {
+            return true;
+        }
+        
+        if (!(object instanceof Picture)) {
+            return false;
+        }
+
+		return this.imageId == ((Picture)object).imageId;
 	}
 }
