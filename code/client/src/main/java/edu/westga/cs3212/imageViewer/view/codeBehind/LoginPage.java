@@ -58,16 +58,10 @@ public class LoginPage {
 	 */
 	@FXML
 	private void onLogin(MouseEvent event) throws IOException {
-		String password = this.passwordField.getText();
-		String username = this.usernameField.getText();
 
 		this.serverSideLogin();
 		
-		if (!this.loginManager.login(username, password)) {
-			this.setErrorText(LoginManager.INCORRECT_LOGIN_INFORMATION);
-		} else {
-			this.setToMainPage();
-		}
+		
 		
 
 	}
@@ -80,17 +74,10 @@ public class LoginPage {
 	 */
 	@FXML
 	private void onCreateAccountClicked(MouseEvent event) throws IOException {
-
-		String password = this.passwordField.getText();
-		String username = this.usernameField.getText();
-		User user = new User(username, password);
-
 		
 		this.serverSideCreateAccount();
 		
-		if (!this.loginManager.addUser(user)) {
-			this.setErrorText(LoginManager.DUPLICATE_USERNAME);
-		}
+		
 	}
 
 	private void serverSideLogin() throws IOException {
@@ -119,9 +106,12 @@ public class LoginPage {
 			
 			if(success == 1) {
 				System.out.println("Account Login Successfull" );
+				this.loginManager.login(user, pass);
+				this.setToMainPage();
 			}
 			else {
 				System.out.println("Account Login Failed" );
+				this.setErrorText(LoginManager.INCORRECT_LOGIN_INFORMATION);
 			}
 			System.out.println("the received string for server: " + help);
 			
@@ -132,6 +122,7 @@ public class LoginPage {
 		Context createAccountContext = ZMQ.context(1);
 		String user = this.usernameField.textProperty().get();
 		String pass = this.passwordField.textProperty().get();
+		User createdAccount = new User(user, pass);
 
         //  Socket to talk to server
         System.out.println("Connecting to hello world server");
@@ -154,9 +145,11 @@ public class LoginPage {
 			
 			if(success == 1) {
 				System.out.println("Account Creation Successfull" );
+				this.loginManager.addUser(createdAccount);
 			}
 			else {
 				System.out.println("Account Creation Failed" );
+				this.setErrorText(LoginManager.DUPLICATE_USERNAME);
 			}
 			System.out.println("the received string for server: " + help);
 			

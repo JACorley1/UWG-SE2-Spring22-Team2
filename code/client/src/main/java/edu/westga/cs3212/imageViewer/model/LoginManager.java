@@ -22,7 +22,8 @@ public class LoginManager {
         if (LoginManager.users == null) {
             LoginManager.users = new ArrayList<User>();
         }
-        LoginManager.loggedInUser = new User("infinity","gauntlet");
+        User admin = new User("infinity","gauntlet");
+        this.addUser(admin);
     }
 
     /** 
