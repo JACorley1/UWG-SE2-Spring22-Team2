@@ -160,19 +160,15 @@ public class AddImage {
 		}
 
 	}
+
+    
     
 	
 	private void bindToViewModel() {
 		this.imageNameTextField.textProperty().bindBidirectional(this.viewModel.getTitleProperty());
 		this.imageView.imageProperty().bindBidirectional(this.viewModel.getImageProperty());
 	}
-        File selectedFile = fileChooser.showOpenDialog(stage);
-        if (selectedFile != null) {
-
-            this.setImage(selectedFile.getPath());
-        }
-
-    }
+        
 
     /**
      * Initializes the add Image page.

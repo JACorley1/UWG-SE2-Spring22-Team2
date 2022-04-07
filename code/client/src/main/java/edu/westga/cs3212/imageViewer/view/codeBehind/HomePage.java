@@ -104,7 +104,6 @@ public class HomePage {
 	 */
 	private ArrayList<ImageView> setUpImageViews() {
 		ArrayList<ImageView> allImages = new ArrayList<ImageView>();
-		LoginManager login = new LoginManager();
 
 		for (Object imageInBytes : this.serverSideGetImages()) {
 			String bytes = (String)imageInBytes;
@@ -191,5 +190,26 @@ public class HomePage {
 		loginPage.setScene(scene);
 		loginPage.setTitle(Main.WINDOW_TITLE);
 		loginPage.show();
+	}
+
+	@FXML
+    void onDeleteImageClick(ActionEvent event) {
+		if (this.imageListView.getItems().isEmpty()) {
+			this.setErrorLabel("There are no images!");
+		} else {
+			this.viewModel.deletePicture(this.imageListView.getSelectionModel().selectedItemProperty().get().getImage());
+			this.populateVBox();
+		}
+    }
+
+	/**
+	 * Sets the error label.
+	 *
+	 * @param text the new error text
+	 */
+	private void setErrorLabel(String text) {
+		this.errorLabel.setText(text);
+		this.errorLabel.disableProperty().setValue(false);
+		this.errorLabel.setVisible(true);
 	}
 }
