@@ -2,7 +2,7 @@ from asyncio.windows_events import NULL
 from urllib import response
 import zmq # type: ignore
 import time, json
-from credentials_manager.base import CredentialsManager
+from credentials_manager.base import CredentialsManager, ImageEncoder
 from credentials_manager.base import Image
 from typing import MutableMapping, Any
 
@@ -75,10 +75,26 @@ class _RequestHandler:
         return response
     
     def _getImages(self) -> MutableMapping[str,Any]:
-        returnImages = []
+        encodedImages = []
+        for img in self.images :
+           encodedImages.append(ImageEncoder().encode(img)) 
+        response = {"successCode": 1, "images": json.dumps(encodedImages)}
+        return response
+
+    def _deleteImages(self, imageId) -> MutableMapping[str,Any]:
+        imageToBeRemoved = None
+        imageId = int(imageId)
         for image in self.images:
-            returnImages.append(image.imageBytes)
-        response = {"successCode": 1, "images": returnImages}
+            if image.imageId == imageId :
+                imageToBeRemoved = image
+                break
+
+        if imageToBeRemoved != None :
+            self.images.remove(imageToBeRemoved)
+            response = {"successCode": 1}
+        else:
+            response = {"successCode": -1}
+
         return response
 
         
@@ -96,6 +112,8 @@ class _RequestHandler:
             response = self._addImage(request["imageName"], request["imageBytes"])
         elif (request["requestType"] == "getImages") :
             response = self._getImages()
+        elif (request["requestType"] == "deleteImage",request["imageId"]) :
+            response = self._deleteImages(request["imageId"])
         else :
             errorMessage = "Unsupported Request Type ({requestType})".format(requestType = request['requestType'])
             response = {"successCode": -1, "errorMessage": errorMessage}

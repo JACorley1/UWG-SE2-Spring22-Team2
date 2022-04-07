@@ -1,4 +1,7 @@
+from json import JSONEncoder
+import json
 from msilib.schema import Class
+import random 
 import typing
 
 ''' Manages the set of system credentials for a single user.
@@ -66,6 +69,16 @@ class CredentialsManager:
 
 class Image:
     
-    def __init__(self, name, imageBytes ):
+    def __init__(self, name, imageBytes):
         self.name = name
         self.imageBytes = imageBytes
+        self.imageId = random.randint(0,1000)
+
+class ImageEncoder (JSONEncoder) :
+
+    def default(self, object):
+        if isinstance(object, Image):
+            return object.__dict__
+        
+        else: 
+            return json.JSONEncoder.default(self,object)

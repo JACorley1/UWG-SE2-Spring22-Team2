@@ -8,7 +8,6 @@ import java.util.Base64;
 
 import edu.westga.cs3212.imageViewer.Main;
 import edu.westga.cs3212.imageViewer.model.LoginManager;
-import edu.westga.cs3212.imageViewer.model.Picture;
 import edu.westga.cs3212.imageViewer.view.viewModel.ImageViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -85,12 +84,8 @@ public class AddImage {
     @FXML
     void onUploadClicked(MouseEvent event) throws IOException {
     	this.viewModel.addPicture();
-    	
-    	this.closeWindow();
-    	
         this.serverSideAddImage();
         this.closeWindow();
-
     }
 
     private void serverSideAddImage() throws IOException {
@@ -118,6 +113,7 @@ public class AddImage {
 
             if (success == 1) {
                 System.out.println("Image Sucessfully Added");
+               // LoginManager.loggedInUser.addImage(new Picture(this.imageView.getImage(), imageName, 0));
             } else {
                 System.out.println("Image failed to be added");
             }
@@ -142,7 +138,6 @@ public class AddImage {
     void onCancelClicked(MouseEvent event) throws IOException {
         this.closeWindow();
     }
-
     @FXML
     void onImageViewClicked(MouseEvent event) {
 
@@ -200,8 +195,8 @@ public class AddImage {
 
             this.imageInBytes = inputStream.readAllBytes();
             this.imageView.imageProperty().setValue(new Image(new File(imagePath).toURI().toString()));
-
             System.out.println(this.imagePath);
+            inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

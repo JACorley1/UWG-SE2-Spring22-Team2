@@ -8,12 +8,10 @@ import java.util.List;
 
 import edu.westga.cs3212.imageViewer.Main;
 import edu.westga.cs3212.imageViewer.model.LoginManager;
+import edu.westga.cs3212.imageViewer.model.Picture;
 import edu.westga.cs3212.imageViewer.model.User;
 import edu.westga.cs3212.imageViewer.view.viewModel.ImageViewModel;
-import javafx.beans.property.SimpleListProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -80,12 +78,10 @@ public class HomePage {
      */
     private void populateVBox() {
     	
-    	User currentUser = LoginManager.loggedInUser;
-    	
     	ArrayList<ImageView> allImages = this.setUpImageViews();
 		
-    	this.userImages.getChildren().addAll(allImages);
-		ObservableList<ImageView> images = new SimpleListProperty<ImageView>(FXCollections.observableArrayList(allImages));
+    	//this.userImages.getChildren().addAll(allImages);
+		//ObservableList<ImageView> images = new SimpleListProperty<ImageView>(FXCollections.observableArrayList(allImages));
 		this.imageListView.setItems(FXCollections.observableArrayList(allImages));
 
 	}
@@ -104,16 +100,23 @@ public class HomePage {
 	 */
 	private ArrayList<ImageView> setUpImageViews() {
 		ArrayList<ImageView> allImages = new ArrayList<ImageView>();
+		JSONArray jsonArray = this.serverSideGetImages();
+		for (int i = 0; i < jsonArray.length(); i++ ){
+			JSONObject imageInJSON = new JSONObject(jsonArray.getString(i));
+			String imageName = imageInJSON.getString("name");
+			String imageBytes = imageInJSON.getString("imageBytes");
+			int imageId = imageInJSON.getInt("imageId");
+			System.out.println(imageId);
 
-		for (Object imageInBytes : this.serverSideGetImages()) {
-			String bytes = (String)imageInBytes;
-			if(bytes != null) {
-				byte[] decodedImage = Base64.getDecoder().decode(bytes);
+			if(imageBytes != null) {
+				byte[] decodedImage = Base64.getDecoder().decode(imageBytes);
 				ByteArrayInputStream byteStream = new ByteArrayInputStream(decodedImage);
 
-				Image img = new Image(byteStream);
+				Picture img = new Picture(byteStream,imageName,imageId);
 				ImageView someImage = new ImageView();
 				someImage.imageProperty().setValue(img);
+				System.out.println(img.imageId + " Actual");
+				System.out.println(((Picture)someImage.imageProperty().getValue()).imageId);
 				someImage.fitWidthProperty().bind(this.userImages.widthProperty());
 				someImage.setFitHeight(365);
 				someImage.setPreserveRatio(true);
@@ -125,7 +128,7 @@ public class HomePage {
 		return allImages;
 	}
 
-	private List<Object> serverSideGetImages() {
+	private JSONArray serverSideGetImages() {
 		Context getImageContext = ZMQ.context(1);
 
 		// Socket to talk to server
@@ -143,15 +146,16 @@ public class HomePage {
 			String help = getImagesocket.recvStr();
 
 			JSONObject checker = new JSONObject(help);
+			
 
 			int success = checker.getInt("successCode");
 
 			if (success == 1) {
 				System.out.println("Images Successfully obtained");
-				JSONArray filePaths = checker.getJSONArray("images");
-				return filePaths.toList();
+				JSONArray serverImages = new JSONArray(checker.getString("images"));
+				return serverImages;
 			} else {
-				System.out.println("Image failed to be added");
+				System.out.println("Image failed to be obtained");
 				return null;
 			}
 
@@ -197,7 +201,8 @@ public class HomePage {
 		if (this.imageListView.getItems().isEmpty()) {
 			this.setErrorLabel("There are no images!");
 		} else {
-			this.viewModel.deletePicture(this.imageListView.getSelectionModel().selectedItemProperty().get().getImage());
+			int imageId =((Picture)this.imageListView.getSelectionModel().selectedItemProperty().get().getImage()).imageId;
+			this.viewModel.deletePicture(imageId);
 			this.populateVBox();
 		}
     }
