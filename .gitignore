@@ -28,4 +28,5 @@ hs_err_pid*
 *.lst
 
 /code/client/target/
+/code/server/__pycache__
 
