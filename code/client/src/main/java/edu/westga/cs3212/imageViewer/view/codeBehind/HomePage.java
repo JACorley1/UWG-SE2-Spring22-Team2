@@ -80,12 +80,10 @@ public class HomePage {
      */
     private void populateVBox() {
     	
-    	User currentUser = LoginManager.loggedInUser;
-    	
     	ArrayList<ImageView> allImages = this.setUpImageViews();
 		
-    	this.userImages.getChildren().addAll(allImages);
-		ObservableList<ImageView> images = new SimpleListProperty<ImageView>(FXCollections.observableArrayList(allImages));
+    	//this.userImages.getChildren().addAll(allImages);
+		//ObservableList<ImageView> images = new SimpleListProperty<ImageView>(FXCollections.observableArrayList(allImages));
 		this.imageListView.setItems(FXCollections.observableArrayList(allImages));
 
 	}
@@ -148,10 +146,10 @@ public class HomePage {
 
 			if (success == 1) {
 				System.out.println("Images Successfully obtained");
-				JSONArray filePaths = checker.getJSONArray("images");
-				return filePaths.toList();
+				JSONArray imagesInBytes = checker.getJSONArray("images");
+				return imagesInBytes.toList();
 			} else {
-				System.out.println("Image failed to be added");
+				System.out.println("Image failed to be obtained");
 				return null;
 			}
 

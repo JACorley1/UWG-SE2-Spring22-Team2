@@ -13,6 +13,12 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.zeromq.ZMQ;
+import org.zeromq.ZMQ.Context;
+import org.zeromq.ZMQ.Socket;
+
 
 public class ImageViewModel {
 	private final ListProperty<Image> pictureListProperty;
@@ -95,20 +101,55 @@ public class ImageViewModel {
 	 * @return true if a picture has been deleted; false otherwise
 	 */
 	public boolean deletePicture(Image picture) {
+		String pictureName = this.removePictureFromClient(picture);
+		System.out.println(pictureName);
+		Context getImageContext = ZMQ.context(1);
+
+		// Socket to talk to server
+		System.out.println("Connecting to hello world server");
+
+		try (@SuppressWarnings("deprecation")
+		Socket deleteImageSocket = getImageContext.socket(ZMQ.REQ)) {
+			deleteImageSocket.connect("tcp://127.0.0.1:5555");
+
+			String deleteImageRequest = "{\"requestType\" : \"deleteImages\", \"name\" : \""+ pictureName + "\"}";
+			System.out.println("Client - Sending delete Image Request");
+			deleteImageSocket.send(deleteImageRequest.getBytes(ZMQ.CHARSET), 0);
+			System.out.println("Successful request send.");
+
+			String help = deleteImageSocket.recvStr();
+
+			JSONObject checker = new JSONObject(help);
+
+			int success = checker.getInt("successCode");
+
+			if (success == 1) {
+				System.out.println("Images Successfully removed");
+
+				return true;
+			} else {
+				System.out.println("Image failed to be removed");
+				return false;
+			}
+
+		}
+
+	}
+
+	private String removePictureFromClient(Image picture) {
+		String pictureName = "";
 		LoginManager login = new LoginManager();
 		for (User currUser : login.getUsers()) {
 			if (currUser.getImages().getPictures().contains(picture)) {
+				pictureName = currUser.getImages().getImage(picture).getTitle();
+				System.out.println(pictureName + "This is the images name");
 				currUser.getImages().removeImage(picture);
 			}
 		}
-
 		if (picture != null) {
 			this.imageInventory.removeImage(picture);
 			this.pictureListProperty.set(FXCollections.observableArrayList(this.imageInventory.getPictures()));
-			return true;
 		}
-		
-		return false;
-
-	}
+		return pictureName;
+	}	
 }

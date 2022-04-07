@@ -44,6 +44,17 @@ public class ImageInventory {
 
 	}
 
+	public Picture getImage(Image image) {
+		Picture picture = null;
+
+		for (Picture currpicture : images) {
+			if (currpicture.getPic() == image) {
+				picture = currpicture;
+			}
+		}
+		return picture;
+	}
+
 	/**
 	 * Removes the image.
 	 *

@@ -1,10 +1,14 @@
 package edu.westga.cs3212.imageViewer.view.codeBehind;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Base64;
+
+import javax.imageio.ImageIO;
 
 import edu.westga.cs3212.imageViewer.Main;
 import edu.westga.cs3212.imageViewer.model.LoginManager;
@@ -85,12 +89,8 @@ public class AddImage {
     @FXML
     void onUploadClicked(MouseEvent event) throws IOException {
     	this.viewModel.addPicture();
-    	
-    	this.closeWindow();
-    	
         this.serverSideAddImage();
         this.closeWindow();
-
     }
 
     private void serverSideAddImage() throws IOException {
@@ -118,6 +118,7 @@ public class AddImage {
 
             if (success == 1) {
                 System.out.println("Image Sucessfully Added");
+                LoginManager.loggedInUser.addImage(new Picture(this.imageView.getImage(), imageName));
             } else {
                 System.out.println("Image failed to be added");
             }
@@ -142,7 +143,6 @@ public class AddImage {
     void onCancelClicked(MouseEvent event) throws IOException {
         this.closeWindow();
     }
-
     @FXML
     void onImageViewClicked(MouseEvent event) {
 

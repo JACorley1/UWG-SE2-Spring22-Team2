@@ -81,6 +81,21 @@ class _RequestHandler:
         response = {"successCode": 1, "images": returnImages}
         return response
 
+    def _deleteImages(self, name) -> MutableMapping[str,Any]:
+        imageToBeRemoved = None
+        for image in self.images:
+            if image.name == name :
+                imageToBeRemoved = image
+                break
+
+        if imageToBeRemoved != None :
+            self.images.remove(imageToBeRemoved)
+            response = {"successCode": 1}
+        else:
+            response = {"successCode": -1}
+
+        return response
+
         
     def handleRequest(self, request: MutableMapping[str, Any]) -> MutableMapping[str, Any]:
         response: MutableMapping[str, Any]
@@ -96,6 +111,8 @@ class _RequestHandler:
             response = self._addImage(request["imageName"], request["imageBytes"])
         elif (request["requestType"] == "getImages") :
             response = self._getImages()
+        elif (request["requestType"] == "deleteImage",request["name"]) :
+            response = self._deleteImages(request["name"])
         else :
             errorMessage = "Unsupported Request Type ({requestType})".format(requestType = request['requestType'])
             response = {"successCode": -1, "errorMessage": errorMessage}
