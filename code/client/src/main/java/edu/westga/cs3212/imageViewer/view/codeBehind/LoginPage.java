@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import edu.westga.cs3212.imageViewer.Main;
 import edu.westga.cs3212.imageViewer.model.LoginManager;
+import edu.westga.cs3212.imageViewer.model.ServerCommunitcator;
 import edu.westga.cs3212.imageViewer.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,8 +49,6 @@ public class LoginPage {
 	/** The login manager. */
 	private LoginManager loginManager;
 
-
-
 	/**
 	 * On login.
 	 *
@@ -62,95 +61,67 @@ public class LoginPage {
 		this.serverSideLogin();
 
 	}
-	
+
 	/**
 	 * On create account clicked.
 	 *
 	 * @param event the event
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@FXML
 	private void onCreateAccountClicked(MouseEvent event) throws IOException {
-		
+
 		this.serverSideCreateAccount();
-		
-		
+
 	}
 
 	private void serverSideLogin() throws IOException {
-		Context context = ZMQ.context(1);
 		String user = this.usernameField.textProperty().get();
 		String pass = this.passwordField.textProperty().get();
 
-        //  Socket to talk to server
-        System.out.println("Connecting to hello world server");
+		// Socket to talk to server
+		System.out.println("Connecting to hello world server");
 
-        try (@SuppressWarnings("deprecation")
-		Socket socket = context.socket(ZMQ.REQ)) {
-			socket.connect("tcp://127.0.0.1:5555");
-			
-			String request = "{\"requestType\" : \"login\", \"username\": \""+user+"\", \"password\":\""+pass+"\"}";
-			System.out.println("Client - Sending Login Request");
-			socket.send(request.getBytes(ZMQ.CHARSET), 0);
-			System.out.println("Successful request send.");
-			
-			String help = socket.recvStr();
-			
-			
-			JSONObject checker = new JSONObject(help);
-			
-			int success = checker.getInt("successCode");
-			
-			if(success == 1) {
-				System.out.println("Account Login Successfull" );
-				this.loginManager.login(user, pass);
-				this.setToMainPage();
-			}
-			else {
-				System.out.println("Account Login Failed" );
-				this.setErrorText(LoginManager.INCORRECT_LOGIN_INFORMATION);
-			}
-			System.out.println("the received string for server: " + help);
-			
+		String request = "{\"requestType\" : \"login\", \"username\": \"" + user + "\", \"password\":\"" + pass + "\"}";
+		System.out.println("Client - Sending Login Request");
+		JSONObject checker = ServerCommunitcator.sendMessage(request);
+		System.out.println("Successful request send.");
+
+		int success = checker.getInt("successCode");
+
+		if (success == 1) {
+			System.out.println("Account Login Successfull");
+			this.loginManager.login(user, pass);
+			this.setToMainPage();
+		} else {
+			System.out.println("Account Login Failed");
+			this.setErrorText(LoginManager.INCORRECT_LOGIN_INFORMATION);
 		}
 	}
-	
+
 	private void serverSideCreateAccount() throws IOException {
-		Context createAccountContext = ZMQ.context(1);
 		String user = this.usernameField.textProperty().get();
 		String pass = this.passwordField.textProperty().get();
 		User createdAccount = new User(user, pass);
 
-        //  Socket to talk to server
-        System.out.println("Connecting to hello world server");
+		System.out.println("Connecting to hello world server");
 
-        try (@SuppressWarnings("deprecation")
-		Socket createAccountsocket = createAccountContext.socket(ZMQ.REQ)) {
-        	createAccountsocket.connect("tcp://127.0.0.1:5555");
-			
-			String createAccountRequest = "{\"requestType\" : \"createAccount\", \"username\": \""+user+"\", \"password\":\""+pass+"\"}";
-			System.out.println("Client - Sending create Account Request");
-			createAccountsocket.send(createAccountRequest.getBytes(ZMQ.CHARSET), 0);
-			System.out.println("Successful request send.");
-			
-			String help = createAccountsocket.recvStr();
-			
-			
-			JSONObject checker = new JSONObject(help);
-			
-			int success = checker.getInt("successCode");
-			
-			if(success == 1) {
-				System.out.println("Account Creation Successfull" );
-				this.loginManager.addUser(createdAccount);
-			}
-			else {
-				System.out.println("Account Creation Failed" );
-				this.setErrorText(LoginManager.DUPLICATE_USERNAME);
-			}
-			System.out.println("the received string for server: " + help);
-			
+		String createAccountRequest = "{\"requestType\" : \"createAccount\", \"username\": \"" + user
+				+ "\", \"password\":\"" + pass + "\"}";
+		System.out.println("Client - Sending create Account Request");
+		JSONObject checker = ServerCommunitcator.sendMessage(createAccountRequest);
+		System.out.println("Successful request send.");
+
+		int success = checker.getInt("successCode");
+
+		if (success == 1) {
+			System.out.println("Account Creation Successfull");
+			this.loginManager.addUser(createdAccount);
+		} else {
+			System.out.println("Account Creation Failed");
+			this.setErrorText(LoginManager.DUPLICATE_USERNAME);
 		}
+
 	}
 
 	/**
@@ -162,7 +133,7 @@ public class LoginPage {
 		this.errorText.setText(text);
 		this.errorText.disableProperty().setValue(false);
 		this.errorText.setVisible(true);
-		
+
 	}
 
 	/**
