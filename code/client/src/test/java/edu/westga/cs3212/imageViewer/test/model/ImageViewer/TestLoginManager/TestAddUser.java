@@ -16,7 +16,7 @@ class TestAddUser {
         LoginManager login = new LoginManager();
         
         assertTrue(login.addUser(new User("username", "password")));
-        assertEquals(1, login.size());
+        assertEquals(2, login.size());
         login.clearUsers();
     }
 
@@ -29,7 +29,7 @@ class TestAddUser {
         login.addUser(new User("Lima", "Green"));
         
         assertFalse(login.addUser(new User("username", "password123")));
-        assertEquals(3, login.size());
+        assertEquals(4, login.size());
 
         login.clearUsers();
     }
