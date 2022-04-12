@@ -23,23 +23,13 @@ class TestRemoveImage {
 	}
 	
 	@Test
-	void testNullImage() {
-		ImageInventory inventory = new ImageInventory();
-		Image image = null;
-		assertThrows(IllegalArgumentException.class, () -> {
-			inventory.removeImage(image);
-		});
-	}
-	
-	@Test
 	void testRemoveOneImage() {
 		ImageInventory inventory = new ImageInventory();
 		
 		FileInputStream inputStream;
 		try {
 			inputStream = new FileInputStream("Assets/upload.jpg");
-			Image image = new Image(inputStream);
-			Picture picture = new Picture(image, "Click to upload image");
+			Picture picture = new Picture(inputStream, "Click to upload image", 1);
 			inventory.addImage(picture);
 			inventory.removeImage(picture);
 			
@@ -63,15 +53,10 @@ class TestRemoveImage {
 			inputStream3 = new FileInputStream("Assets/upload.jpg");
 			inputStream4 = new FileInputStream("Assets/upload.jpg");
 			
-			Image image = new Image(inputStream);
-			Image image2 = new Image(inputStream2);
-			Image image3 = new Image(inputStream3);
-			Image image4 = new Image(inputStream4);
-			
-			Picture picture = new Picture(image, "Click to upload image");
-			Picture picture2 = new Picture(image2, "Click to upload image");
-			Picture picture3 = new Picture(image3, "Click to upload image");
-			Picture picture4 = new Picture(image4, "Click to upload image");
+			Picture picture = new Picture(inputStream, "Click to upload image", 1);
+			Picture picture2 = new Picture(inputStream2, "Click to upload image", 2);
+			Picture picture3 = new Picture(inputStream3, "Click to upload image", 3);
+			Picture picture4 = new Picture(inputStream4, "Click to upload image", 4);
 			
 			inventory.addImage(picture);
 			inventory.addImage(picture2);
