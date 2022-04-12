@@ -13,28 +13,20 @@ import javafx.scene.image.Image;
 class TestConstructor {
 
 	@Test
-	void testNullImageTitle() {
+	void testNullPictureTitle() throws FileNotFoundException {
+		FileInputStream inputStream = new FileInputStream("Assets/upload.jpg");
 		Image image = null;
 		assertThrows(IllegalArgumentException.class, () ->{
-			new Picture(image, null);
-		});
-	}
-	
-	@Test
-	void testNullImage() {
-		assertThrows(IllegalArgumentException.class, () ->{
-			new Picture(null, "Cats");
+			new Picture(inputStream, null, 1);
 		});
 	}
 	
 	@Test
 	void testInvalidImageId() throws FileNotFoundException {
 		FileInputStream inputStream = new FileInputStream("Assets/upload.jpg");
-		Image image = new Image(inputStream);
-		Picture picture = new Picture(image, "Click to upload image");
 		
 		assertThrows(IllegalArgumentException.class, () -> {
-			picture.setImageId(-1);
+			new Picture(inputStream, "Click to upload image", -1);
 		});
 		
 	}
@@ -44,14 +36,10 @@ class TestConstructor {
 		FileInputStream inputStream;
 		try {
 			inputStream = new FileInputStream("Assets/upload.jpg");
-			Image image = new Image(inputStream);
-			Picture picture = new Picture(image, "Click to upload image");
-			picture.setImageId(25);
+			Picture picture = new Picture(inputStream, "Click to upload image", 1);
 			assertAll(
-					() -> assertEquals(image, picture.getPic()),
 					() -> assertEquals("Click to upload image", picture.getTitle()),
-					() -> assertEquals(25, picture.getImageId()),
-					() -> assertEquals("Click to upload image: 25", picture.toString())
+					() -> assertEquals(1, picture.getImageId())
 					);
 		} catch (FileNotFoundException exception) {
 			exception.printStackTrace();
