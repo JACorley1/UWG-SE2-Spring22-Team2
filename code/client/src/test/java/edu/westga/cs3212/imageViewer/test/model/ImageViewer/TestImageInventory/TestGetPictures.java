@@ -31,7 +31,7 @@ class TestGetPictures {
 			Image image = new Image(inputStream);
 			
 			
-			Picture picture = new Picture(image, "Click to upload image");
+			Picture picture = new Picture(inputStream, "Click to upload image", 1);
 			
 			inventory.addImage(picture);
 			inventory.getPictures().add(image);
@@ -58,9 +58,9 @@ class TestGetPictures {
 			Image image2 = new Image(inputStream2);
 			Image image3 = new Image(inputStream3);
 			
-			Picture picture = new Picture(image, "Click to upload image");
-			Picture picture2 = new Picture(image2, "Click to upload image");
-			Picture picture3 = new Picture(image3, "Click to upload image");
+			Picture picture = new Picture(inputStream, "Click to upload image", 1);
+			Picture picture2 = new Picture(inputStream2, "Click to upload image", 2);
+			Picture picture3 = new Picture(inputStream3, "Click to upload image", 3);
 			
 			inventory.addImage(picture);
 			inventory.addImage(picture2);
