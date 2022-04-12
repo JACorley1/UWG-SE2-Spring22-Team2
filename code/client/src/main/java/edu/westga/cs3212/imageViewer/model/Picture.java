@@ -28,6 +28,9 @@ public class Picture extends Image {
 		if (title == null) {
 			throw new IllegalArgumentException("The title cannot be null");
 		}
+		if (imageId <= 0) {
+			throw new IllegalArgumentException("The image id must be positive");
+		}
 		this.title = title;
 		this.imageId = imageId;
 	}
@@ -45,6 +48,9 @@ public class Picture extends Image {
 		super(url);
 		if (title == null) {
 			throw new IllegalArgumentException("The title cannot be null");
+		}
+		if (imageId <= 0) {
+			throw new IllegalArgumentException("The image id must be positive");
 		}
 		this.title = title;
 	}
