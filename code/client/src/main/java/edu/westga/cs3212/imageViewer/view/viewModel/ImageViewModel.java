@@ -3,6 +3,7 @@ package edu.westga.cs3212.imageViewer.view.viewModel;
 import edu.westga.cs3212.imageViewer.model.ImageInventory;
 import edu.westga.cs3212.imageViewer.model.LoginManager;
 import edu.westga.cs3212.imageViewer.model.Picture;
+import edu.westga.cs3212.imageViewer.model.ServerCommunitcator;
 import edu.westga.cs3212.imageViewer.model.User;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
@@ -10,14 +11,8 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import org.json.JSONArray;
 import org.json.JSONObject;
-import org.zeromq.ZMQ;
-import org.zeromq.ZMQ.Context;
-import org.zeromq.ZMQ.Socket;
 
 
 public class ImageViewModel {
@@ -26,8 +21,6 @@ public class ImageViewModel {
 	private final ObjectProperty<Image> imageProperty;
 	private final StringProperty titleProperty;
 
-	private ImageInventory imageInventory;
-	private ImageView imageView;
 	
 	/**
 	 * Instantiates an ImageViewModel.
@@ -38,8 +31,6 @@ public class ImageViewModel {
 		this.imageProperty = new SimpleObjectProperty<Image>();
 		this.titleProperty = new SimpleStringProperty();
 
-		this.imageInventory = new ImageInventory();
-		this.imageView = new ImageView();
 		this.pictureListProperty = new SimpleListProperty<Image>();
 	}
 
@@ -101,25 +92,13 @@ public class ImageViewModel {
 	 * @return true if a picture has been deleted; false otherwise
 	 */
 	public boolean deletePicture(int imageId) {
-		//String pictureName = this.removePictureFromClient(picture);
 		System.out.println(imageId);
-		Context getImageContext = ZMQ.context(1);
-
-		// Socket to talk to server
 		System.out.println("Connecting to hello world server");
-
-		try (@SuppressWarnings("deprecation")
-		Socket deleteImageSocket = getImageContext.socket(ZMQ.REQ)) {
-			deleteImageSocket.connect("tcp://127.0.0.1:5555");
 
 			String deleteImageRequest = "{\"requestType\" : \"deleteImages\", \"imageId\" : \""+ imageId + "\"}";
 			System.out.println("Client - Sending delete Image Request");
-			deleteImageSocket.send(deleteImageRequest.getBytes(ZMQ.CHARSET), 0);
+			JSONObject checker = ServerCommunitcator.sendMessage(deleteImageRequest);
 			System.out.println("Successful request send.");
-
-			String help = deleteImageSocket.recvStr();
-
-			JSONObject checker = new JSONObject(help);
 
 			int success = checker.getInt("successCode");
 
@@ -131,25 +110,5 @@ public class ImageViewModel {
 				System.out.println("Image failed to be removed");
 				return false;
 			}
-
-		}
-
 	}
-
-	//private String removePictureFromClient(Image picture) {
-		// String pictureName = "";
-		// LoginManager login = new LoginManager();
-		// for (User currUser : login.getUsers()) {
-		// 	if (currUser.getImages().getPictures().contains(picture)) {
-		// 		pictureName = currUser.getImages().getImage(picture).getTitle();
-		// 		System.out.println(pictureName + "This is the images name");
-		// 		currUser.getImages().removeImage(picture);
-		// 	}
-		// }
-		// if (picture != null) {
-		// 	this.imageInventory.removeImage(picture);
-		// 	this.pictureListProperty.set(FXCollections.observableArrayList(this.imageInventory.getPictures()));
-		// }
-		// return pictureName;
-	//}	
 }

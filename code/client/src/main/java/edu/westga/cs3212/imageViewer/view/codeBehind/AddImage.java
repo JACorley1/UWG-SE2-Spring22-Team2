@@ -8,6 +8,7 @@ import java.util.Base64;
 
 import edu.westga.cs3212.imageViewer.Main;
 import edu.westga.cs3212.imageViewer.model.LoginManager;
+import edu.westga.cs3212.imageViewer.model.ServerCommunitcator;
 import edu.westga.cs3212.imageViewer.view.viewModel.ImageViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -68,12 +69,13 @@ public class AddImage {
     private LoginManager manager;
 
     private String defaultImage;
-    
+
     private ImageViewModel viewModel;
-    
+
     public AddImage() {
-    	this.viewModel = new ImageViewModel();
+        this.viewModel = new ImageViewModel();
     }
+
     private String imagePath;
 
     @FXML
@@ -83,42 +85,29 @@ public class AddImage {
 
     @FXML
     void onUploadClicked(MouseEvent event) throws IOException {
-    	this.viewModel.addPicture();
+        this.viewModel.addPicture();
         this.serverSideAddImage();
         this.closeWindow();
     }
 
     private void serverSideAddImage() throws IOException {
-        Context addImageContext = ZMQ.context(1);
         String imageName = this.imageNameTextField.textProperty().getValue();
-
-        // Socket to talk to server
         System.out.println("Connecting to hello world server");
 
-        try (@SuppressWarnings("deprecation")
-        Socket addImagesocket = addImageContext.socket(ZMQ.REQ)) {
-            addImagesocket.connect("tcp://127.0.0.1:5555");
+        String addImageRequest = "{\"requestType\" : \"addImage\", \"imageName\": \"" + imageName
+                + "\", \"imageBytes\" : \"" + Base64.getEncoder().encodeToString(this.imageInBytes) + "\"}";
+        System.out.println("Client - Sending create Add Image Request");
+        JSONObject checker = ServerCommunitcator.sendMessage(addImageRequest);
+        System.out.println("Successful request send.");
 
-            String addImageRequest = "{\"requestType\" : \"addImage\", \"imageName\": \"" + imageName
-                    + "\", \"imageBytes\" : \"" + Base64.getEncoder().encodeToString(this.imageInBytes) + "\"}";
-            System.out.println("Client - Sending create Add Image Request");
-            addImagesocket.send(addImageRequest.getBytes(ZMQ.CHARSET), 0);
-            System.out.println("Successful request send.");
+        int success = checker.getInt("successCode");
 
-            String help = addImagesocket.recvStr();
-
-            JSONObject checker = new JSONObject(help);
-
-            int success = checker.getInt("successCode");
-
-            if (success == 1) {
-                System.out.println("Image Sucessfully Added");
-               // LoginManager.loggedInUser.addImage(new Picture(this.imageView.getImage(), imageName, 0));
-            } else {
-                System.out.println("Image failed to be added");
-            }
-            System.out.println("the received string for server: " + help);
-
+        if (success == 1) {
+            System.out.println("Image Sucessfully Added");
+            // LoginManager.loggedInUser.addImage(new Picture(this.imageView.getImage(),
+            // imageName, 0));
+        } else {
+            System.out.println("Image failed to be added");
         }
     }
 
@@ -138,6 +127,7 @@ public class AddImage {
     void onCancelClicked(MouseEvent event) throws IOException {
         this.closeWindow();
     }
+
     @FXML
     void onImageViewClicked(MouseEvent event) {
 
@@ -148,22 +138,18 @@ public class AddImage {
                 new ExtensionFilter("All Files", "*.*"));
 
         Stage stage = new Stage();
-		    File selectedFile = fileChooser.showOpenDialog(stage);
-		    if (selectedFile != null) {
-			
-			    this.setImage(selectedFile.getPath());
-		}
+        File selectedFile = fileChooser.showOpenDialog(stage);
+        if (selectedFile != null) {
 
-	}
+            this.setImage(selectedFile.getPath());
+        }
 
-    
-    
-	
-	private void bindToViewModel() {
-		this.imageNameTextField.textProperty().bindBidirectional(this.viewModel.getTitleProperty());
-		this.imageView.imageProperty().bindBidirectional(this.viewModel.getImageProperty());
-	}
-        
+    }
+
+    private void bindToViewModel() {
+        this.imageNameTextField.textProperty().bindBidirectional(this.viewModel.getTitleProperty());
+        this.imageView.imageProperty().bindBidirectional(this.viewModel.getImageProperty());
+    }
 
     /**
      * Initializes the add Image page.
