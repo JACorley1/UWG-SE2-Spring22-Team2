@@ -65,11 +65,11 @@ class _RequestHandler:
             
         return response
     
-    def _addImage(self, imageName: str, imageBytes:str) -> MutableMapping[str,Any]:
+    def _addImage(self, imageName: str, imageBytes:str, imageVisibility:str) -> MutableMapping[str,Any]:
         if (imageName == None or imageBytes == None) :
             response = {"successCode":-1}
         else :
-            newImage = Image(imageName, imageBytes)
+            newImage = Image(imageName, imageBytes, imageVisibility)
             self.images.append(newImage)
             response = {"successCode": 1}
         return response
@@ -109,7 +109,7 @@ class _RequestHandler:
         elif (request["requestType"] == "createAccount") :
             response = self._createAccount(request["username"], request["password"])
         elif (request["requestType"] == "addImage"):
-            response = self._addImage(request["imageName"], request["imageBytes"])
+            response = self._addImage(request["imageName"], request["imageBytes"], request["imageVisibility"])
         elif (request["requestType"] == "getImages") :
             response = self._getImages()
         elif (request["requestType"] == "deleteImage",request["imageId"]) :

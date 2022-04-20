@@ -69,10 +69,12 @@ class CredentialsManager:
 
 class Image:
     
-    def __init__(self, name, imageBytes):
+    def __init__(self, name, imageBytes,imageVisibility):
         self.name = name
         self.imageBytes = imageBytes
         self.imageId = random.randint(0,1000)
+        self.imageVisibility = imageVisibility
+        self.sharedWith = []
 
 class ImageEncoder (JSONEncoder) :
 
