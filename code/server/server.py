@@ -3,7 +3,7 @@ from urllib import response
 import zmq # type: ignore
 import time, json
 from credentials_manager.base import CredentialsManager, ImageEncoder
-from credentials_manager.base import Image
+from credentials_manager.base import Image , User , UserEncoder
 from typing import MutableMapping, Any
 
 ''' Handles server requests and returns appropriately formatted responses
@@ -24,7 +24,8 @@ class _RequestHandler:
         if (not isinstance(credentialsManager, CredentialsManager)):
             raise Exception("Must provide a subtype of CredentialsManager")
         self._credentialsManager = credentialsManager
-        self.images = []
+        self.serverImages = []
+        self.serverUsers = []
     
     ''' Returns a response for the getSystemNames request
      Format: comma separated list of all system names
@@ -70,13 +71,13 @@ class _RequestHandler:
             response = {"successCode":-1}
         else :
             newImage = Image(imageName, imageBytes, imageVisibility)
-            self.images.append(newImage)
+            self.serverImages.append(newImage)
             response = {"successCode": 1}
         return response
     
     def _getImages(self) -> MutableMapping[str,Any]:
         encodedImages = []
-        for img in self.images :
+        for img in self.serverImages :
            encodedImages.append(ImageEncoder().encode(img)) 
         response = {"successCode": 1, "images": json.dumps(encodedImages)}
         return response
@@ -84,13 +85,29 @@ class _RequestHandler:
     def _deleteImages(self, imageId) -> MutableMapping[str,Any]:
         imageToBeRemoved = None
         imageId = int(imageId)
-        for image in self.images:
+        for image in self.serverImages:
             if image.imageId == imageId :
                 imageToBeRemoved = image
                 break
 
         if imageToBeRemoved != None :
-            self.images.remove(imageToBeRemoved)
+            self.serverImages.remove(imageToBeRemoved)
+            response = {"successCode": 1}
+        else:
+            response = {"successCode": -1}
+
+        return response
+
+    def _shareImages(self, imageId, username) -> MutableMapping[str,Any]:
+        imageToBeShared = None
+        imageId = int(imageId)
+        for image in self.serverImages:
+            if image.imageId == imageId :
+                imageToBeShared = image
+                break
+
+        if imageToBeShared != None :
+            imageToBeShared
             response = {"successCode": 1}
         else:
             response = {"successCode": -1}
@@ -114,6 +131,8 @@ class _RequestHandler:
             response = self._getImages()
         elif (request["requestType"] == "deleteImage",request["imageId"]) :
             response = self._deleteImages(request["imageId"])
+        elif(request["requestType"] == "shareImage"):
+            response = self._shareImage(request["imageId"], request["username"])
         else :
             errorMessage = "Unsupported Request Type ({requestType})".format(requestType = request['requestType'])
             response = {"successCode": -1, "errorMessage": errorMessage}

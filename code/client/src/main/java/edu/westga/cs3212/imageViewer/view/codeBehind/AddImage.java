@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.Base64;
 
 import edu.westga.cs3212.imageViewer.Main;
-import edu.westga.cs3212.imageViewer.model.LoginManager;
 import edu.westga.cs3212.imageViewer.model.ServerCommunitcator;
 import edu.westga.cs3212.imageViewer.view.viewModel.ImageViewModel;
 import javafx.fxml.FXML;
@@ -168,7 +167,6 @@ public class AddImage {
     public void initialize() {
         this.bindToViewModel();
         Tooltip.install(this.imageView, new Tooltip("Click here to upload a new image."));
-        this.manager = new LoginManager();
         this.setImage("Assets\\upload.jpg");
     }
 

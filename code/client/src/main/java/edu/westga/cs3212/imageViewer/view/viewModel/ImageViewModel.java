@@ -1,10 +1,7 @@
 package edu.westga.cs3212.imageViewer.view.viewModel;
 
-import edu.westga.cs3212.imageViewer.model.ImageInventory;
-import edu.westga.cs3212.imageViewer.model.LoginManager;
 import edu.westga.cs3212.imageViewer.model.Picture;
 import edu.westga.cs3212.imageViewer.model.ServerCommunitcator;
-import edu.westga.cs3212.imageViewer.model.User;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
