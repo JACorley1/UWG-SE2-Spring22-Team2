@@ -54,6 +54,9 @@ public class HomePage {
 
 	@FXML
 	private Button deleteImageButton;
+	
+	@FXML
+    private Button shareButton;
 
 	@FXML
 	private Label errorLabel;
@@ -72,6 +75,21 @@ public class HomePage {
 		this.populateVBox();
 		// this.bindToViewModel();
 	}
+	
+    @FXML
+    void onHomeTabClicked(ActionEvent event) {
+
+    }
+    
+    @FXML
+    void onPublicPhotosTabClicked(ActionEvent event) {
+
+    }
+    
+    @FXML
+    void onShareImageClicked(ActionEvent event) {
+
+    }
 
 	/**
 	 * Populate the Vbox with user images.

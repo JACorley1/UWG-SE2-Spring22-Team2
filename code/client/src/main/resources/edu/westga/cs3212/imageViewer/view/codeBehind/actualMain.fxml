@@ -32,9 +32,10 @@
       </Label>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Untitled Tab 1" />
-          <Tab text="public Share" />
+          <Tab fx:id="homeTab" onSelectionChanged="#onHomeTabClicked" text="Home" />
+          <Tab fx:id="publicTab" onSelectionChanged="#initialize" text="Public Photos" />
         </tabs>
       </TabPane>
+      <Button fx:id="shareButton" alignment="BOTTOM_RIGHT" layoutX="450.0" layoutY="467.0" mnemonicParsing="false" onAction="#onShareImageClicked" text="Share Image" />
    </children>
 </AnchorPane>
