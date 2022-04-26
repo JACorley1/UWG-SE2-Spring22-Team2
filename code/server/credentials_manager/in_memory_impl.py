@@ -1,5 +1,5 @@
 import typing
-from credentials_manager.base import CredentialsManager
+from credentials_manager.base import UserManager
 
 ''' Stores a single set of credentials.
 
@@ -47,7 +47,7 @@ class _CredentialsSet:
  @author CS3212
  @version Spring 2022
 '''
-class InMemoryCredentialsManager (CredentialsManager):
+class InMemoryCredentialsManager (UserManager):
     
     ''' Create a new credential manager with no systems
     
@@ -74,7 +74,7 @@ class InMemoryCredentialsManager (CredentialsManager):
      @return true  if system added successfully
                false if system not added successfully
     '''
-    def addSystem(self, systemName: str, username: str, password: str) -> bool:
+    def addUser(self, systemName: str, username: str, password: str) -> bool:
         if (systemName in self._systemCredentials) :
             return False
         credentialsSet = _CredentialsSet(username, password)
@@ -88,7 +88,7 @@ class InMemoryCredentialsManager (CredentialsManager):
      
      @return list of the names for all systems with credentials in the password manager
     '''
-    def getSystemNames(self) -> typing.List[str]:
+    def getUsers(self) -> typing.List[str]:
         systemNames = []
         
         for systemName in self._systemCredentials:
@@ -107,7 +107,7 @@ class InMemoryCredentialsManager (CredentialsManager):
      @return password of the system if getSystemNames().contains(systemName)
                null                   if !getSystemNames().contains(systemName)
     '''
-    def getSystemPassword(self, systemName: str) -> str:
+    def getUserPassword(self, systemName: str) -> str:
         if (systemName not in self._systemCredentials) :
             raise Exception("System with specified name not found")
         return self._systemCredentials[systemName].getPassword()
