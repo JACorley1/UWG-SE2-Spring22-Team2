@@ -97,6 +97,6 @@ public class LoginManager {
     }
 
     public ArrayList<User> getUsers() {
-        return this.users;
+        return LoginManager.users;
     }
 }
