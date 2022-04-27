@@ -3,7 +3,7 @@ from json import JSONEncoder
 import json
 from msilib.schema import Class
 import random
-import typing
+
 
 from pip import List
 
@@ -54,13 +54,18 @@ class UserManager:
     '''
     def getUsers(self):
         return self._allLogins
-
     
     def getUser(self, username):
-
         for user in self._allLogins:
-            if user.username == username :
+            if (user.username == username):
                 return user
+    
+    def deleteImage(self,imageId) :
+        usersSharedWith = self.currentUser._deleteImage(imageId)
+        if (usersSharedWith != None) :
+            for user in usersSharedWith:
+               user._deleteSharedImage(self.currentUser, imageId)
+
 
 
 class Image:
@@ -86,31 +91,45 @@ class User:
         self.username = username
         self.password = password
         self.images = []
-        self.sharedImages = []
+        self.sharedImages = dict()
 
     def addImage(self, newImage) :
         self.images.append(newImage)
 
-    def addsharedImage(self, imageId) :
-        self.sharedImages.append(imageId)
+    def addsharedImage(self, imageId, username) :
+        if(self.sharedImages.get(username) == None):
+            self.sharedImages.update({username, [imageId]})
+        else:
+            self.sharedImages.get(username).append(imageId)
 
-    def _deleteImage(self, imageId) -> bool :
+    def _deleteImage(self, imageId) :
         imageId = int(imageId)
         for image in self.images:
             if image.imageId == imageId :
+                sharedwithUsers = image.sharedImages
                 self.images.remove(image)
-                return True
+                return sharedwithUsers
         
+        return None
+    
+    def _deleteSharedImage(self, username, imageId) -> bool :
+        if (self.sharedImages.get(username) is None) :
+            self.sharedImages.get(username).remove(imageId)
+            return True
+        
+        return False
+
+    def hasImage(self,imageId) -> bool :
+        for image in self.images:
+            if (image.imageId == imageId) :
+                return True
         return False
     
-    def _deleteSharedImage(self, imageId) -> bool :
-        imageId = int(imageId)
-        for image in self.sharedImages:
-            if image.imageId == imageId :
-                self.images.remove(image)
-                return True
-        
-        return False
+    def getImage(self,imageId) -> Image:
+        for image in self.images:
+            if (image.imageId == imageId) :
+                return image
+        return None
 
 
 class UserEncoder (JSONEncoder) :

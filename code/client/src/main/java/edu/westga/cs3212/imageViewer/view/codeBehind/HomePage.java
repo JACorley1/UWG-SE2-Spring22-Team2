@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 
+import javax.swing.JOptionPane;
+
 import edu.westga.cs3212.imageViewer.Main;
 import edu.westga.cs3212.imageViewer.model.LoginManager;
 import edu.westga.cs3212.imageViewer.model.Picture;
@@ -22,7 +24,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import org.json.JSONArray;
@@ -114,7 +115,8 @@ public class HomePage {
 					.getImage()).imageId;
 		}
 		//Create a dialog to get a username// also have to verify if username is in the list of users on server
-		this.handleShareImage(imageId, "infinity");
+		String userToBeSharedTo = JOptionPane.showInputDialog(this.shareButton.getParent(), "Enter the username of the user you would like to share to.");
+		this.handleShareImage(imageId, userToBeSharedTo);
 	}
 
 
