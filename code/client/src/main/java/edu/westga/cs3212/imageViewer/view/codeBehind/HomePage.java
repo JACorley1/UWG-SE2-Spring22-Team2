@@ -81,16 +81,17 @@ public class HomePage {
 
 	}
 
-	//private void bindToViewModel() {
-		// this.imageListView.itemsProperty().bind((ObservableValue<? extends
-		// ObservableList<ImageView>>) this.viewModel.getPictureListProperty());
-		// this.imageListView.itemsProperty().bind((ObservableValue<? extends
-		// ObservableList<ImageView>>) this.viewModel.getPictureListProperty());
-		// this.viewModel.getSelectedPictureProperty().bind(this.imageListView.getSelectionModel().selectedItemProperty());
-	//}
+	// private void bindToViewModel() {
+	// this.imageListView.itemsProperty().bind((ObservableValue<? extends
+	// ObservableList<ImageView>>) this.viewModel.getPictureListProperty());
+	// this.imageListView.itemsProperty().bind((ObservableValue<? extends
+	// ObservableList<ImageView>>) this.viewModel.getPictureListProperty());
+	// this.viewModel.getSelectedPictureProperty().bind(this.imageListView.getSelectionModel().selectedItemProperty());
+	// }
 
 	/**
-	 * Places all images in the system to be displayed by placing them in Image Views.
+	 * Places all images in the system to be displayed by placing them in Image
+	 * Views.
 	 *
 	 * @param currentUser the current user
 	 * @return the array list
@@ -98,7 +99,7 @@ public class HomePage {
 	 */
 	private ArrayList<ImageView> setUpImageViews() {
 		ArrayList<ImageView> allImages = new ArrayList<ImageView>();
-		JSONArray jsonArray = this.serverSideGetImages();
+		JSONArray jsonArray = this.serverSideGetImages(0);
 		for (int i = 0; i < jsonArray.length(); i++) {
 			JSONObject imageInJSON = new JSONObject(jsonArray.getString(i));
 			String imageName = imageInJSON.getString("name");
@@ -126,10 +127,22 @@ public class HomePage {
 		return allImages;
 	}
 
-	private JSONArray serverSideGetImages() {
+	private JSONArray serverSideGetImages(int visibility) {
 		System.out.println("Connecting to hello world server");
-
-		String getImagesRequest = "{\"requestType\" : \"getImages\"}";
+		String getImagesRequest = "";
+		switch (visibility) {
+			case 0:
+				getImagesRequest = "{\"requestType\" : \"getPublicImages\"}";
+				break;
+			case 1:
+				getImagesRequest = "{\"requestType\" : \"getMyImages\"}";
+				break;
+			case 2:
+				getImagesRequest = "{\"requestType\" : \"getMySharedImages\"}";
+				break;
+			default:
+				break;
+		}
 		System.out.println("Client - Sending Get Images Request");
 		JSONObject checker = ServerCommunitcator.sendMessage(getImagesRequest);
 		System.out.println("Successful request send.");
@@ -147,21 +160,22 @@ public class HomePage {
 
 	}
 
-	private void shareImage(int imageId, String username) {
+	private void handleShareImage(int imageId, String username) {
 		System.out.println("Connecting to hello world server");
 
-		String shareImageRequest = "{\"requestType\" : \"shareImage\", \"imageId\" : \""+ imageId + "\", \"username\" : \""+ username+ "\"}";
-			System.out.println("Client - Sending delete Image Request");
-			JSONObject checker = ServerCommunitcator.sendMessage(shareImageRequest);
-			System.out.println("Successful request send.");
+		String shareImageRequest = "{\"requestType\" : \"shareImage\", \"imageId\" : \"" + imageId
+				+ "\", \"username\" : \"" + username + "\"}";
+		System.out.println("Client - Sending delete Image Request");
+		JSONObject checker = ServerCommunitcator.sendMessage(shareImageRequest);
+		System.out.println("Successful request send.");
 
-			int success = checker.getInt("successCode");
+		int success = checker.getInt("successCode");
 
-			if (success == 1) {
-				System.out.println("Images Successfully shared");
-			} else {
-				System.out.println("Image failed to share image ");
-			}
+		if (success == 1) {
+			System.out.println("Images Successfully shared");
+		} else {
+			System.out.println("Image failed to share image ");
+		}
 	}
 
 	/**

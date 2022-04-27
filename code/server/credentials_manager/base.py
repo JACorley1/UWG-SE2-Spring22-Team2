@@ -25,7 +25,7 @@ class UserManager:
         self._allLogins = [adminUser]
 
     def addUser(self, username: str, password: str) -> bool:
-        if (self.userExists(username, password) is False):
+        if (self.userExists(username) is False):
             newUser = User(username, password)
             self._allLogins.append(newUser)
             return True
@@ -52,7 +52,7 @@ class UserManager:
      
      @return list of the Users in the system
     '''
-    def getUsers(self) -> List:
+    def getUsers(self):
         return self._allLogins
 
     
@@ -92,10 +92,9 @@ class User:
         self.images.append(newImage)
 
     def addsharedImage(self, imageId) :
-        self.sharedImages.append(imageId);
+        self.sharedImages.append(imageId)
 
     def _deleteImage(self, imageId) -> bool :
-        imageToBeRemoved = None
         imageId = int(imageId)
         for image in self.images:
             if image.imageId == imageId :
@@ -105,7 +104,6 @@ class User:
         return False
     
     def _deleteSharedImage(self, imageId) -> bool :
-        imageToBeRemoved = None
         imageId = int(imageId)
         for image in self.sharedImages:
             if image.imageId == imageId :

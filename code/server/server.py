@@ -48,17 +48,18 @@ class _RequestHandler:
      @return response string using appropriate format (see description for details)
     '''
     def _login(self, usernameInput: str, passwordInput:str) -> MutableMapping[str, Any]:       
-        if(self._userManager.userExists(usernameInput, passwordInput) is True) :
-            self._userManager.currentUser = self._userManager.getUser(usernameInput)
-            response = {"successCode": 1}
-        else :
-            response = {"successCode": -1}
+        if(self._userManager.userExists(usernameInput) is True) :
+            if(self._userManager.getUser(usernameInput).password == passwordInput):
+                self._userManager.currentUser = self._userManager.getUser(usernameInput)
+                response = {"successCode": 1}
+            else :
+                response = {"successCode": -1}
             
         return response
     
     def _createAccount(self, usernameInput: str, passwordInput:str) -> MutableMapping[str, Any]:       
         
-        if(self._userManager.userExists(usernameInput, passwordInput) is True) :
+        if(self._userManager.userExists(usernameInput) is True) :
             response = {"successCode": -1}
         else :
             self._userManager.addUser(usernameInput, passwordInput)
@@ -71,13 +72,29 @@ class _RequestHandler:
             response = {"successCode":-1}
         else :
             newImage = Image(imageName, imageBytes, imageVisibility)
-            self.images.append(newImage)
+            self._userManager.currentUser.addImage(newImage)
             response = {"successCode": 1}
         return response
     
-    def _getImages(self) -> MutableMapping[str,Any]:
+    def _getPublicImages(self) -> MutableMapping[str,Any]:
         encodedImages = []
-        for img in self.images :
+        for user in self._userManager._allLogins :
+            for img in user.images:
+                if (img.imageVisibility == "Public"):
+                    encodedImages.append(ImageEncoder().encode(img)) 
+            response = {"successCode": 1, "images": json.dumps(encodedImages)}
+        return response
+    
+    def _getMyImages(self) -> MutableMapping[str,Any]:
+        encodedImages = []
+        for img in self._userManager.currentUser.images :
+           encodedImages.append(ImageEncoder().encode(img)) 
+        response = {"successCode": 1, "images": json.dumps(encodedImages)}
+        return response
+
+    def _getMySharedImages(self) -> MutableMapping[str,Any]:
+        encodedImages = []
+        for img in self._userManager.currentUser.sharedImages :
            encodedImages.append(ImageEncoder().encode(img)) 
         response = {"successCode": 1, "images": json.dumps(encodedImages)}
         return response
@@ -116,10 +133,16 @@ class _RequestHandler:
             response = self._createAccount(request["username"], request["password"])
         elif (request["requestType"] == "addImage"):
             response = self._addImage(request["imageName"], request["imageBytes"], request["imageVisibility"])
-        elif (request["requestType"] == "getImages") :
-            response = self._getImages()
+        elif (request["requestType"] == "getPublicImages") :
+            response = self._getPublicImages()
+        elif (request["requestType"] == "getMyImages") :
+            response = self._getMyImages()
+        elif (request["requestType"] == "getMySharedImages") :
+            response = self._getMySharedImages()
         elif (request["requestType"] == "deleteImage",request["imageId"]) :
             response = self._deleteImages(request["imageId"])
+        elif (request["requestType"] == "shareImage",):
+            response = self._shareImage(request["imageId"], request["username"])
         else :
             errorMessage = "Unsupported Request Type ({requestType})".format(requestType = request['requestType'])
             response = {"successCode": -1, "errorMessage": errorMessage}

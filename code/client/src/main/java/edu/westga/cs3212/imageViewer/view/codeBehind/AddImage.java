@@ -99,6 +99,7 @@ public class AddImage {
         System.out.println("Client - Sending create Add Image Request");
         JSONObject checker = ServerCommunitcator.sendMessage(addImageRequest);
         System.out.println("Successful request send.");
+        System.out.println(imageVisibility);
 
         int success = checker.getInt("successCode");
 
