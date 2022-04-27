@@ -1,6 +1,7 @@
 package edu.westga.cs3212.imageViewer.test.model.ImageViewer.TestImageInventory;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.Test;
 
 import edu.westga.cs3212.imageViewer.model.ImageInventory;
 import edu.westga.cs3212.imageViewer.model.Picture;
-import javafx.scene.image.Image;
 
 class TestRemoveImage {
 
@@ -67,6 +67,28 @@ class TestRemoveImage {
 			inventory.removeImage(picture4);
 			
 			assertEquals(2, inventory.size());
+		} catch (FileNotFoundException exception) {
+			exception.printStackTrace();
+		}
+	}
+	
+	@Test
+	void testRemoveFalseImage() {
+		ImageInventory inventory = new ImageInventory();
+		
+		FileInputStream inputStream;
+		FileInputStream inputStream2;
+		
+		try {
+			inputStream = new FileInputStream("Assets/upload.jpg");
+			inputStream2 = new FileInputStream("Assets/upload.jpg");
+			
+			Picture picture = new Picture(inputStream, "Click to upload image", 1);
+			Picture picture2 = new Picture(inputStream2, "Click to upload image", 2);
+			
+			inventory.addImage(picture);
+			
+			assertEquals(false, inventory.removeImage(picture2));
 		} catch (FileNotFoundException exception) {
 			exception.printStackTrace();
 		}
