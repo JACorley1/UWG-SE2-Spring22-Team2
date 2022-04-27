@@ -6,6 +6,7 @@ import edu.westga.cs3212.imageViewer.Main;
 import edu.westga.cs3212.imageViewer.model.LoginManager;
 import edu.westga.cs3212.imageViewer.model.ServerCommunitcator;
 import edu.westga.cs3212.imageViewer.model.User;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,9 +18,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import org.json.JSONObject;
-import org.zeromq.ZMQ;
-import org.zeromq.ZMQ.Context;
-import org.zeromq.ZMQ.Socket;
 
 /**
  * The Class LoginPage.
@@ -115,8 +113,9 @@ public class LoginPage {
 		int success = checker.getInt("successCode");
 
 		if (success == 1) {
-			System.out.println("Account Creation Successfull");
+			System.out.println("Account Creation Successful");
 			this.loginManager.addUser(createdAccount);
+			this.setErrorText(LoginManager.USER_CREATED);
 		} else {
 			System.out.println("Account Creation Failed");
 			this.setErrorText(LoginManager.DUPLICATE_USERNAME);
