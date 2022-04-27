@@ -19,6 +19,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -31,26 +33,38 @@ import org.json.JSONObject;
  */
 public class HomePage {
 
-	/** The user images. */
+	@FXML
+	private TabPane pagesTabPane;
+
+	@FXML
+	private Tab MyPhotosTab;
+
 	@FXML
 	private Button logOutButton;
 
 	@FXML
-	private VBox userImages;
+	private ListView<ImageView> myPhotosListView;
 
 	@FXML
-	private ListView<ImageView> imageListView;
+	private ListView<ImageView> publicListView;
 
-	/** The add image button. */
+	@FXML
+	private ListView<ImageView> sharedListView;
 
 	@FXML
 	private Button addImageButton;
 
 	@FXML
 	private Button deleteImageButton;
-	
+
 	@FXML
-    private Button shareButton;
+	private Tab publicTab;
+
+	@FXML
+	private Button shareButton;
+
+	@FXML
+	private Tab sharedPhotosTab;
 
 	@FXML
 	private Label errorLabel;
@@ -66,58 +80,66 @@ public class HomePage {
 	 */
 	@FXML
 	public void initialize() {
-		this.populateVBox();
-		// this.bindToViewModel();
+		
+		this.onPublicPhotosTab();
+		this.onSharedPhotosTab();
+		this.onMyPhotosTab();
 	}
-	
-    @FXML
-    void onHomeTabClicked(ActionEvent event) {
 
-    }
-    
-    @FXML
-    void onPublicPhotosTabClicked(ActionEvent event) {
+	@FXML
+	void onMyPhotosTab() {
+		this.pagesTabPane.getSelectionModel().select(this.MyPhotosTab);
+		this.populateVBox(1, this.myPhotosListView);
+	}
 
-    }
-    
-    @FXML
-    void onShareImageClicked(ActionEvent event) {
+	@FXML
+	void onPublicPhotosTab() {
+		this.pagesTabPane.getSelectionModel().select(this.publicTab);
+		this.populateVBox(0, this.publicListView);
+	}
 
-    }
+	@FXML
+	void onSharedPhotosTab() {
+		this.pagesTabPane.getSelectionModel().select(this.sharedPhotosTab);
+		this.populateVBox(2, this.sharedListView);
+	}
+
+	@FXML
+	void onShareImageClicked(ActionEvent event) {
+		int imageId = 0;
+		if (myPhotosListView.getItems().isEmpty()) {
+			this.setErrorLabel("There are no images!");
+		} else {
+			imageId = ((Picture) myPhotosListView.getSelectionModel().selectedItemProperty().get()
+					.getImage()).imageId;
+		}
+		//Create a dialog to get a username// also have to verify if username is in the list of users on server
+		this.handleShareImage(imageId, "infinity");
+	}
+
 
 	/**
 	 * Populate the Vbox with user images.
+	 * 
+	 * @param visbility The Visibility to display 0 = Public, 1 = Private, 2= Shared
 	 */
-	private void populateVBox() {
+	private void populateVBox(int visibility, ListView<ImageView> listView) {
 
-		ArrayList<ImageView> allImages = this.setUpImageViews();
-
-		// this.userImages.getChildren().addAll(allImages);
-		// ObservableList<ImageView> images = new
-		// SimpleListProperty<ImageView>(FXCollections.observableArrayList(allImages));
-		this.imageListView.setItems(FXCollections.observableArrayList(allImages));
+		ArrayList<ImageView> allImages = this.setUpImageViews(visibility);
+		listView.setItems(FXCollections.observableArrayList(allImages));
 
 	}
-
-	// private void bindToViewModel() {
-	// this.imageListView.itemsProperty().bind((ObservableValue<? extends
-	// ObservableList<ImageView>>) this.viewModel.getPictureListProperty());
-	// this.imageListView.itemsProperty().bind((ObservableValue<? extends
-	// ObservableList<ImageView>>) this.viewModel.getPictureListProperty());
-	// this.viewModel.getSelectedPictureProperty().bind(this.imageListView.getSelectionModel().selectedItemProperty());
-	// }
 
 	/**
 	 * Places all images in the system to be displayed by placing them in Image
 	 * Views.
 	 *
-	 * @param currentUser the current user
-	 * @return the array list
 	 * 
+	 * @return An ArrayList of viewable images in the Application
 	 */
-	private ArrayList<ImageView> setUpImageViews() {
+	private ArrayList<ImageView> setUpImageViews(int visibility) {
 		ArrayList<ImageView> allImages = new ArrayList<ImageView>();
-		JSONArray jsonArray = this.serverSideGetImages(0);
+		JSONArray jsonArray = this.serverSideGetImages(visibility);
 		for (int i = 0; i < jsonArray.length(); i++) {
 			JSONObject imageInJSON = new JSONObject(jsonArray.getString(i));
 			String imageName = imageInJSON.getString("name");
@@ -126,23 +148,27 @@ public class HomePage {
 			System.out.println(imageId);
 
 			if (imageBytes != null) {
-				byte[] decodedImage = Base64.getDecoder().decode(imageBytes);
-				ByteArrayInputStream byteStream = new ByteArrayInputStream(decodedImage);
-
-				Picture img = new Picture(byteStream, imageName, imageId);
-				ImageView someImage = new ImageView();
-				someImage.imageProperty().setValue(img);
-				System.out.println(img.imageId + " Actual");
-				System.out.println(((Picture) someImage.imageProperty().getValue()).imageId);
-				someImage.fitWidthProperty().bind(this.userImages.widthProperty());
-				someImage.setFitHeight(365);
-				someImage.setPreserveRatio(true);
-				allImages.add(someImage);
+				allImages.add(buildImage(allImages, imageName, imageBytes, imageId));
 			}
-
 		}
-
 		return allImages;
+	}
+
+	private ImageView buildImage(ArrayList<ImageView> allImages, String imageName, String imageBytes, int imageId) {
+		byte[] decodedImage = Base64.getDecoder().decode(imageBytes);
+		ByteArrayInputStream byteStream = new ByteArrayInputStream(decodedImage);
+
+		Picture img = new Picture(byteStream, imageName, imageId);
+		ImageView someImage = new ImageView();
+		someImage.imageProperty().setValue(img);
+		System.out.println(img.imageId + " Actual");
+		System.out.println(((Picture) someImage.imageProperty().getValue()).imageId);
+		// someImage.fitWidthProperty().bind(this.pagesTabPane.widthProperty());
+		someImage.setFitHeight(365);
+		someImage.setPreserveRatio(true);
+
+		return someImage;
+
 	}
 
 	private JSONArray serverSideGetImages(int visibility) {
@@ -232,13 +258,13 @@ public class HomePage {
 
 	@FXML
 	void onDeleteImageClick(ActionEvent event) {
-		if (this.imageListView.getItems().isEmpty()) {
+		if (myPhotosListView.getItems().isEmpty()) {
 			this.setErrorLabel("There are no images!");
 		} else {
-			int imageId = ((Picture) this.imageListView.getSelectionModel().selectedItemProperty().get()
+			int imageId = ((Picture) myPhotosListView.getSelectionModel().selectedItemProperty().get()
 					.getImage()).imageId;
 			this.viewModel.deletePicture(imageId);
-			this.populateVBox();
+			this.initialize();
 		}
 	}
 
