@@ -1,12 +1,12 @@
 import typing
-from credentials_manager.base import CredentialsManager
+from credentials_manager.base import UserManager
 
 ''' Manages the set of system credentials for a single user.
 
  @author CS3212
  @version Spring 2022
 '''
-class DBCredentialsManager (CredentialsManager):
+class DBCredentialsManager (UserManager):
     
     ''' Create a new credential manager with no systems
     
@@ -33,7 +33,7 @@ class DBCredentialsManager (CredentialsManager):
      @return true  if system added successfully
                false if system not added successfully
     '''
-    def addSystem(self, systemName: str, username: str, password: str) -> bool:
+    def addUser(self, systemName: str, username: str, password: str) -> bool:
         raise NotImplementedError()
     
     ''' Retrieves a list of the names for all systems with credentials in the password manager
@@ -43,7 +43,7 @@ class DBCredentialsManager (CredentialsManager):
      
      @return list of the names for all systems with credentials in the password manager
     '''
-    def getSystemNames(self: CredentialsManager) -> typing.List[str]:
+    def getUsers(self: UserManager) -> typing.List[str]:
         raise NotImplementedError()
     
     ''' Return the password for a specified system
@@ -57,7 +57,7 @@ class DBCredentialsManager (CredentialsManager):
      @return password of the system if getSystemNames().contains(systemName)
                null                   if !getSystemNames().contains(systemName)
     '''
-    def getSystemPassword(self, systemName: str) -> str:
+    def getUserPassword(self, systemName: str) -> str:
         raise NotImplementedError()
 
     ''' Return the username for a specified system
