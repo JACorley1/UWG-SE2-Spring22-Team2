@@ -139,6 +139,7 @@
 										<exclude>edu.westga.cs3212.imageViewer</exclude>
 										<exclude>edu.westga.cs3212.imageViewer.view</exclude>
 										<exclude>edu.westga.cs3212.imageViewer.view.viewModel</exclude>
+										<exclude>edu.westga.cs3212.imageViewer.model.ServerCommunitcator.java</exclude>
 									</excludes>
 									<limits>
 										<limit>
