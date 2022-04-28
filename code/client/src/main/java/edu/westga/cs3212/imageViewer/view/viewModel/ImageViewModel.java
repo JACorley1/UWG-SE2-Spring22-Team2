@@ -92,7 +92,7 @@ public class ImageViewModel {
 		System.out.println(imageId);
 		System.out.println("Connecting to hello world server");
 
-			String deleteImageRequest = "{\"requestType\" : \"deleteImages\", \"imageId\" : \""+ imageId + "\"}";
+			String deleteImageRequest = "{\"requestType\" : \"deleteImage\", \"imageId\" : \""+ imageId + "\"}";
 			System.out.println("Client - Sending delete Image Request");
 			JSONObject checker = ServerCommunitcator.sendMessage(deleteImageRequest);
 			System.out.println("Successful request send.");

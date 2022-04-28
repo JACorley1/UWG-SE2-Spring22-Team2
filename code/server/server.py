@@ -54,6 +54,8 @@ class _RequestHandler:
                 response = {"successCode": 1}
             else :
                 response = {"successCode": -1}
+        else :
+            response = {"successCode": -1}
             
         return response
     
@@ -98,16 +100,18 @@ class _RequestHandler:
         for username in currentUser.sharedImages.keys() :
             user = self._userManager.getUser(username)
             for imageId in currentUser.sharedImages.get(username):
-                img = user.getImage(imageId)
-                print(imageId)
-                encodedImages.append(ImageEncoder().encode(img)) 
+                img = user.getImage(int(imageId))
+                if (img != None) :
+                    print(imageId)
+                    encodedImages.append(ImageEncoder().encode(img)) 
                 
         response = {"successCode": 1, "images": json.dumps(encodedImages)}
         return response
 
     def _deleteImages(self, imageId) -> MutableMapping[str,Any]:
-        if self._userManager.currentUser.hasImage(imageId) :
-            self._userManager.deleteImage(imageId)
+        if self._userManager.currentUser.hasImage(int(imageId)) :
+            print("We IN HERE")
+            self._userManager.deleteImage(int(imageId))
             response = {"successCode": 1}
         else:
             response = {"successCode": -1}
@@ -115,10 +119,15 @@ class _RequestHandler:
         return response
 
     def _shareImage(self, imageId, username) -> MutableMapping[str,Any]:
-        self._userManager.getUser(username).addsharedImage(imageId, self._userManager.currentUser.name)
-        for img in self._userManager.currentUser.images:
-            if (img.imageId == imageId):
-                img.isSharedWith.append(username)
+        if(self._userManager.userExists(username)):
+            self._userManager.getUser(username).addsharedImage(imageId, self._userManager.currentUser.username)
+            for img in self._userManager.currentUser.images:
+                if (img.imageId == imageId):
+                    img.isSharedWith.append(username)
+            response = {"successCode": 1}
+        else:
+            response = {"successCode": -1}
+        return response
 
         
     def handleRequest(self, request: MutableMapping[str, Any]) -> MutableMapping[str, Any]:
@@ -139,9 +148,9 @@ class _RequestHandler:
             response = self._getMyImages()
         elif (request["requestType"] == "getMySharedImages") :
             response = self._getMySharedImages()
-        elif (request["requestType"] == "deleteImage",request["imageId"]) :
+        elif (request["requestType"] == "deleteImage") :
             response = self._deleteImages(request["imageId"])
-        elif (request["requestType"] == "shareImage",):
+        elif (request["requestType"] == "shareImage"):
             response = self._shareImage(request["imageId"], request["username"])
         else :
             errorMessage = "Unsupported Request Type ({requestType})".format(requestType = request['requestType'])

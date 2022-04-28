@@ -85,24 +85,25 @@ public class HomePage {
 		this.onPublicPhotosTab();
 		this.onSharedPhotosTab();
 		this.onMyPhotosTab();
+		this.setErrorLabel("");
 	}
 
 	@FXML
 	void onMyPhotosTab() {
 		this.pagesTabPane.getSelectionModel().select(this.MyPhotosTab);
-		this.populateVBox(1, this.myPhotosListView);
+		this.populateImages(1, this.myPhotosListView);
 	}
 
 	@FXML
 	void onPublicPhotosTab() {
 		this.pagesTabPane.getSelectionModel().select(this.publicTab);
-		this.populateVBox(0, this.publicListView);
+		this.populateImages(0, this.publicListView);
 	}
 
 	@FXML
 	void onSharedPhotosTab() {
 		this.pagesTabPane.getSelectionModel().select(this.sharedPhotosTab);
-		this.populateVBox(2, this.sharedListView);
+		this.populateImages(2, this.sharedListView);
 	}
 
 	@FXML
@@ -115,8 +116,9 @@ public class HomePage {
 					.getImage()).imageId;
 		}
 		//Create a dialog to get a username// also have to verify if username is in the list of users on server
-		String userToBeSharedTo = JOptionPane.showInputDialog(this.shareButton.getParent(), "Enter the username of the user you would like to share to.");
+		String userToBeSharedTo = JOptionPane.showInputDialog("Enter the username of the user you would like to share to.");
 		this.handleShareImage(imageId, userToBeSharedTo);
+		this.initialize();
 	}
 
 
@@ -125,7 +127,7 @@ public class HomePage {
 	 * 
 	 * @param visbility The Visibility to display 0 = Public, 1 = Private, 2= Shared
 	 */
-	private void populateVBox(int visibility, ListView<ImageView> listView) {
+	private void populateImages(int visibility, ListView<ImageView> listView) {
 
 		ArrayList<ImageView> allImages = this.setUpImageViews(visibility);
 		listView.setItems(FXCollections.observableArrayList(allImages));
@@ -211,7 +213,7 @@ public class HomePage {
 
 		String shareImageRequest = "{\"requestType\" : \"shareImage\", \"imageId\" : \"" + imageId
 				+ "\", \"username\" : \"" + username + "\"}";
-		System.out.println("Client - Sending delete Image Request");
+		System.out.println("Client - Sending share Image Request");
 		JSONObject checker = ServerCommunitcator.sendMessage(shareImageRequest);
 		System.out.println("Successful request send.");
 
@@ -219,7 +221,8 @@ public class HomePage {
 
 		if (success == 1) {
 			System.out.println("Images Successfully shared");
-		} else {
+		} else if(success == -1) {
+			this.setErrorLabel("No such user exists in the system");
 			System.out.println("Image failed to share image ");
 		}
 	}
