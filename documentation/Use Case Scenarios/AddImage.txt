@@ -16,3 +16,8 @@ CANCEL
 
 a3-5 - user selects cancel
 return to step 2
+
+INVALID INPUT
+a3-a6 - user inputs not an image
+a7 - the system displays an error while uploading a non-image
+return to step 1
