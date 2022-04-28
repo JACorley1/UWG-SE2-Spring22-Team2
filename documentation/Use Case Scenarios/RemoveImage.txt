@@ -13,3 +13,8 @@ BAD CONNECTION
 a4 - system fails to connect to server
 a5 - user is informed of error and prompts to try again later
 return to step 4
+
+NO IMAGES IN VIEW
+a3 - user clicks on remove image without no images
+a4-a5 - the system displays that there are no images in view
+a6 - system displays landing page for user to select an image
