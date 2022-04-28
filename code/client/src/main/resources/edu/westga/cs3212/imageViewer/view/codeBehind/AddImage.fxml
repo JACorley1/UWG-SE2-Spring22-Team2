@@ -27,7 +27,7 @@
          <toggleGroup>
             <ToggleGroup fx:id="group1" />
          </toggleGroup></RadioButton>
-      <RadioButton fx:id="shareableRadioButton" layoutX="168.0" layoutY="324.0" mnemonicParsing="false" text="Shareable" toggleGroup="$group1" />
+      <RadioButton fx:id="shareableRadioButton" disable="true" layoutX="168.0" layoutY="324.0" mnemonicParsing="false" text="Shareable" toggleGroup="$group1" visible="false" />
       <ComboBox fx:id="categoriesComboBox" disable="true" layoutX="259.0" layoutY="320.0" prefWidth="150.0" promptText="None" visible="false" />
       <Label fx:id="categoryLabel" disable="true" layoutX="205.0" layoutY="324.0" text="Category" visible="false" />
       <RadioButton fx:id="publicRadioButton" layoutX="297.0" layoutY="324.0" mnemonicParsing="false" selected="true" text="Public" toggleGroup="$group1" />

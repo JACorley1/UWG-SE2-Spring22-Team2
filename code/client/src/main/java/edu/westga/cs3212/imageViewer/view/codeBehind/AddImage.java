@@ -55,9 +55,6 @@ public class AddImage {
     private RadioButton publicRadioButton;
 
     @FXML
-    private RadioButton shareableRadioButton;
-
-    @FXML
     private ToggleGroup group1;
 
     @FXML
@@ -111,13 +108,9 @@ public class AddImage {
     }
 
     private String getVisibility() {
-        
         if(this.publicRadioButton.isSelected()) {
             return "Public";
-        } else if (this.shareableRadioButton.isSelected()) {
-            return "Shareable";
         }
-
         return "Private";
     }
 
