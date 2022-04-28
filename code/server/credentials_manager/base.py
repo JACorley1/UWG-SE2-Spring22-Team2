@@ -38,7 +38,6 @@ class UserManager:
      @postcondition none
     '''    
     def userExists(self, username: str) -> bool:
-         
         for user in self._allLogins:
             if user.username == username :
                 return True
@@ -57,14 +56,14 @@ class UserManager:
     
     def getUser(self, username):
         for user in self._allLogins:
-            if (user.username == username):
+            if (user.username.lower() == username.lower()):
                 return user
     
-    def deleteImage(self,imageId) :
+    def deleteImage(self,imageId : int) :
         usersSharedWith = self.currentUser._deleteImage(imageId)
         if (usersSharedWith != None) :
             for user in usersSharedWith:
-               user._deleteSharedImage(self.currentUser, imageId)
+                user._deleteSharedImage(self.currentUser, imageId)
 
 
 
@@ -98,36 +97,35 @@ class User:
 
     def addsharedImage(self, imageId, username) :
         if(self.sharedImages.get(username) == None):
-            self.sharedImages.update({username, [imageId]})
+            self.sharedImages.update({username: [imageId]})
         else:
             self.sharedImages.get(username).append(imageId)
 
     def _deleteImage(self, imageId) :
-        imageId = int(imageId)
-        for image in self.images:
-            if image.imageId == imageId :
-                sharedwithUsers = image.sharedImages
-                self.images.remove(image)
-                return sharedwithUsers
+        if (self.hasImage(imageId)) :
+            image = self.getImage(imageId)
+            sharedwithUsers = image.isSharedWith
+            self.images.remove(image)
+            return sharedwithUsers
         
         return None
     
     def _deleteSharedImage(self, username, imageId) -> bool :
-        if (self.sharedImages.get(username) is None) :
+        if (self.sharedImages.get(username) != None) :
             self.sharedImages.get(username).remove(imageId)
             return True
         
         return False
 
-    def hasImage(self,imageId) -> bool :
+    def hasImage(self,imageId : int) -> bool :
         for image in self.images:
             if (image.imageId == imageId) :
                 return True
         return False
     
-    def getImage(self,imageId) -> Image:
+    def getImage(self, imageId : int):
         for image in self.images:
-            if (image.imageId == imageId) :
+            if (int(image.imageId) == imageId) :
                 return image
         return None
 
