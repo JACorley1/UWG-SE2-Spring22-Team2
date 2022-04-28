@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.Base64;
 
 import edu.westga.cs3212.imageViewer.Main;
-import edu.westga.cs3212.imageViewer.model.LoginManager;
 import edu.westga.cs3212.imageViewer.model.ServerCommunitcator;
 import edu.westga.cs3212.imageViewer.view.viewModel.ImageViewModel;
 import javafx.fxml.FXML;
@@ -19,6 +18,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -28,10 +28,6 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.scene.control.Tooltip;
 
 import org.json.JSONObject;
-import org.zeromq.ZMQ;
-import org.zeromq.ZMQ.Context;
-import org.zeromq.ZMQ.Socket;
-
 /**
  * The Class AddImage.
  */
@@ -56,7 +52,10 @@ public class AddImage {
     private RadioButton privateRadioButton;
 
     @FXML
-    private RadioButton shareableRadioButton;
+    private RadioButton publicRadioButton;
+
+    @FXML
+    private ToggleGroup group1;
 
     @FXML
     private ComboBox<?> categoriesComboBox;
@@ -65,10 +64,6 @@ public class AddImage {
     private Label categoryLabel;
 
     private byte[] imageInBytes;
-
-    private LoginManager manager;
-
-    private String defaultImage;
 
     private ImageViewModel viewModel;
 
@@ -92,23 +87,31 @@ public class AddImage {
 
     private void serverSideAddImage() throws IOException {
         String imageName = this.imageNameTextField.textProperty().getValue();
+        String imageVisibility = this.getVisibility();
         System.out.println("Connecting to hello world server");
 
         String addImageRequest = "{\"requestType\" : \"addImage\", \"imageName\": \"" + imageName
-                + "\", \"imageBytes\" : \"" + Base64.getEncoder().encodeToString(this.imageInBytes) + "\"}";
+                + "\", \"imageBytes\" : \"" + Base64.getEncoder().encodeToString(this.imageInBytes) + "\",\"imageVisibility\": \"" + imageVisibility
+                + "\"}";
         System.out.println("Client - Sending create Add Image Request");
         JSONObject checker = ServerCommunitcator.sendMessage(addImageRequest);
         System.out.println("Successful request send.");
+        System.out.println(imageVisibility);
 
         int success = checker.getInt("successCode");
 
         if (success == 1) {
             System.out.println("Image Sucessfully Added");
-            // LoginManager.loggedInUser.addImage(new Picture(this.imageView.getImage(),
-            // imageName, 0));
         } else {
             System.out.println("Image failed to be added");
         }
+    }
+
+    private String getVisibility() {
+        if(this.publicRadioButton.isSelected()) {
+            return "Public";
+        }
+        return "Private";
     }
 
     private void closeWindow() throws IOException {
@@ -158,7 +161,6 @@ public class AddImage {
     public void initialize() {
         this.bindToViewModel();
         Tooltip.install(this.imageView, new Tooltip("Click here to upload a new image."));
-        this.manager = new LoginManager();
         this.setImage("Assets\\upload.jpg");
     }
 

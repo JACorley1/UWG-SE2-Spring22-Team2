@@ -10,6 +10,7 @@ public class LoginManager {
     
     public static final String DUPLICATE_USERNAME = "There is already a user with this username";
     public static final String INCORRECT_LOGIN_INFORMATION = "Invalid user name or password"; 
+    public static final String USER_CREATED = "User account has been successfully created";
     private static ArrayList<User> users;
     public static User loggedInUser;
     
@@ -97,6 +98,6 @@ public class LoginManager {
     }
 
     public ArrayList<User> getUsers() {
-        return this.users;
+        return LoginManager.users;
     }
 }

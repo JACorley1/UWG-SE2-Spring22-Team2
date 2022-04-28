@@ -7,7 +7,8 @@ from server import Server
  @version Spring 2022
 '''
 def main():
-    server.run(CredentialsManager())
+    sv = Server()
+    sv.run(CredentialsManager())
 
 
 if (__name__ == "__main__"):

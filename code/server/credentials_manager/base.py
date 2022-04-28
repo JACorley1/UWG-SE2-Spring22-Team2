@@ -1,83 +1,139 @@
+from hashlib import new
 from json import JSONEncoder
 import json
 from msilib.schema import Class
-import random 
-import typing
+import random
+
+
+from pip import List
 
 ''' Manages the set of system credentials for a single user.
 
  @author CS3212
  @version Spring 2022
 '''
-class CredentialsManager:
-    ''' Create a new credential manager with no systems
+class UserManager:
+    ''' Create a new User manager with one admin user
     
      @precondition none
      @postcondition no systems exist
     '''
     def __init__(self):
         keys = ["infinity"]
-        values = [{"Username": "infinity", "Password": "gauntlet"}]
-        self._allCredentials = dict( zip(keys,values) )
+        adminUser = User("infinity","gauntlet")
+        self.currentUser = adminUser
+        self._allLogins = [adminUser]
 
-    def addSystem(self, username: str, password: str) -> bool:
-        if (self.systemExists(username, password) is False):
-            self._allCredentials.update({username: {"Username": username, "Password": password}})
+    def addUser(self, username: str, password: str) -> bool:
+        if (self.userExists(username) is False):
+            newUser = User(username, password)
+            self._allLogins.append(newUser)
             return True
         else :
             return False
         
-    ''' checks if a usernam password combo exists in the allCredentials dictionary
+    ''' checks if a username password combo exists in the _allLogins dictionary
     
      @precondition none
      @postcondition none
     '''    
-    def systemExists(self, username: str, password: str) -> bool:
-         
-        if(username in self._allCredentials) :
-            return ((username,{"Username": username, "Password": password}) in self._allCredentials.items())  
-        
-        else :
-            return False
+    def userExists(self, username: str) -> bool:
+        for user in self._allLogins:
+            if user.username == username :
+                return True
+        return False
         
     
-    ''' Retrieves a list of the names for all systems with credentials in the password manager
+    ''' Retrieves a list of the Users within the system
      
      @precondition none
      @postcondition none
      
-     @return list of the names for all systems with credentials in the password manager
+     @return list of the Users in the system
     '''
-    def getSystemNames(self) -> dict:
-      
-        return self._allCredentials
+    def getUsers(self):
+        return self._allLogins
     
-    ''' Return the password for a specified system
-     
-     @precondition systemName != null &&
-                     getSystemNames().contains(systemName)
-     @postcondition none
-     
-     @param systemName name of the system
-     
-     @return password of the system if getSystemNames().contains(systemName)
-               null                   if !getSystemNames().contains(systemName)
-    '''
-    def getSystemPassword(self, systemName: str) -> str:
-        raise NotImplementedError()
+    def getUser(self, username):
+        for user in self._allLogins:
+            if (user.username.lower() == username.lower()):
+                return user
+    
+    def deleteImage(self,imageId : int) :
+        usersSharedWith = self.currentUser._deleteImage(imageId)
+        if (usersSharedWith != None) :
+            for user in usersSharedWith:
+                user._deleteSharedImage(self.currentUser, imageId)
+
 
 
 class Image:
     
-    def __init__(self, name, imageBytes):
+    def __init__(self, name, imageBytes, imageVisibility):
         self.name = name
         self.imageBytes = imageBytes
         self.imageId = random.randint(0,1000)
-
+        self.imageVisibility = imageVisibility
+        self.isSharedWith = []
+  
 class ImageEncoder (JSONEncoder) :
 
     def default(self, object):
         if isinstance(object, Image):
+            return object.__dict__
+        
+        else: 
+            return json.JSONEncoder.default(self,object)
+
+class User:
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
+        self.images = []
+        self.sharedImages = dict()
+
+    def addImage(self, newImage) :
+        self.images.append(newImage)
+
+    def addsharedImage(self, imageId, username) :
+        if(self.sharedImages.get(username) == None):
+            self.sharedImages.update({username: [imageId]})
+        else:
+            self.sharedImages.get(username).append(imageId)
+
+    def _deleteImage(self, imageId) :
+        if (self.hasImage(imageId)) :
+            image = self.getImage(imageId)
+            sharedwithUsers = image.isSharedWith
+            self.images.remove(image)
+            return sharedwithUsers
+        
+        return None
+    
+    def _deleteSharedImage(self, username, imageId) -> bool :
+        if (self.sharedImages.get(username) != None) :
+            self.sharedImages.get(username).remove(imageId)
+            return True
+        
+        return False
+
+    def hasImage(self,imageId : int) -> bool :
+        for image in self.images:
+            if (image.imageId == imageId) :
+                return True
+        return False
+    
+    def getImage(self, imageId : int):
+        for image in self.images:
+            if (int(image.imageId) == imageId) :
+                return image
+        return None
+
+
+class UserEncoder (JSONEncoder) :
+
+    def default(self, object):
+        if isinstance(object, User):
             return object.__dict__
         
         else: 

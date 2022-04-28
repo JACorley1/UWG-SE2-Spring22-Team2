@@ -36,26 +36,6 @@ public class Picture extends Image {
 	}
 
 	/**
-	 * Instantiates the Image with the specified title and image id
-	 * 
-	 * @precondition title != null && imageId > 0
-	 * @postcondition getTitle() == title && getImageId() == imageId
-	 * 
-	 * @param title   the title of the image
-	 * @param imageId the image id
-	 */
-	public Picture(String url, String title, int imageId) {
-		super(url);
-		if (title == null) {
-			throw new IllegalArgumentException("The title cannot be null");
-		}
-		if (imageId <= 0) {
-			throw new IllegalArgumentException("The image id must be positive");
-		}
-		this.title = title;
-	}
-
-	/**
 	 * Gets the title of the image
 	 * 
 	 * @precondition none

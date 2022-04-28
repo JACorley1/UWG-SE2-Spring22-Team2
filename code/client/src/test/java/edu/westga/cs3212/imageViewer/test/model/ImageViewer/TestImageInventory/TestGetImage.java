@@ -1,7 +1,6 @@
 package edu.westga.cs3212.imageViewer.test.model.ImageViewer.TestImageInventory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,18 +10,10 @@ import org.junit.jupiter.api.Test;
 import edu.westga.cs3212.imageViewer.model.ImageInventory;
 import edu.westga.cs3212.imageViewer.model.Picture;
 
-class TestAddImage {
+class TestGetImage {
 
 	@Test
-	void testNullImage() {
-		ImageInventory inventory = new ImageInventory();
-		assertThrows(IllegalArgumentException.class, () -> {
-			inventory.addImage(null);
-		});
-	}
-	
-	@Test
-	void testAddOnePicture() {
+	void testGetOneImage() {
 		ImageInventory inventory = new ImageInventory();
 		FileInputStream inputStream;
 		try {
@@ -30,33 +21,22 @@ class TestAddImage {
 			Picture picture = new Picture(inputStream, "Click to upload image", 1);
 			inventory.addImage(picture);
 			
-			assertEquals(1, inventory.size());
+			assertEquals(picture, inventory.getImage(1));
 		} catch (FileNotFoundException exception) {
 			exception.printStackTrace();
 		}
 	}
 	
 	@Test
-	void testAddSeveralImages() {
+	void testGetNullImage() {
 		ImageInventory inventory = new ImageInventory();
-		
 		FileInputStream inputStream;
-		FileInputStream inputStream2;
-		FileInputStream inputStream3;
 		try {
 			inputStream = new FileInputStream("Assets/upload.jpg");
-			inputStream2 = new FileInputStream("Assets/upload.jpg");
-			inputStream3 = new FileInputStream("Assets/upload.jpg");
-			
 			Picture picture = new Picture(inputStream, "Click to upload image", 1);
-			Picture picture2 = new Picture(inputStream2, "Click to upload image", 2);
-			Picture picture3 = new Picture(inputStream3, "Click to upload image", 3);
-			
 			inventory.addImage(picture);
-			inventory.addImage(picture2);
-			inventory.addImage(picture3);
 			
-			assertEquals(3, inventory.size());
+			assertEquals(null, inventory.getImage(2));
 		} catch (FileNotFoundException exception) {
 			exception.printStackTrace();
 		}

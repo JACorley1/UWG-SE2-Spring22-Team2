@@ -1,10 +1,7 @@
 package edu.westga.cs3212.imageViewer.view.viewModel;
 
-import edu.westga.cs3212.imageViewer.model.ImageInventory;
-import edu.westga.cs3212.imageViewer.model.LoginManager;
 import edu.westga.cs3212.imageViewer.model.Picture;
 import edu.westga.cs3212.imageViewer.model.ServerCommunitcator;
-import edu.westga.cs3212.imageViewer.model.User;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -95,7 +92,7 @@ public class ImageViewModel {
 		System.out.println(imageId);
 		System.out.println("Connecting to hello world server");
 
-			String deleteImageRequest = "{\"requestType\" : \"deleteImages\", \"imageId\" : \""+ imageId + "\"}";
+			String deleteImageRequest = "{\"requestType\" : \"deleteImage\", \"imageId\" : \""+ imageId + "\"}";
 			System.out.println("Client - Sending delete Image Request");
 			JSONObject checker = ServerCommunitcator.sendMessage(deleteImageRequest);
 			System.out.println("Successful request send.");
